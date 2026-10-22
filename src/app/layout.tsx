@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: "%s – TimeLyn",
   },
   description:
-    "TimeLyn gathers a family's photographs, memories and recordings into one life story, told in order from the day someone was born.",
+    "TimeLyn is a private online timeline of one person's life. Their family add photos, memories and voice notes, and it all falls into place, year by year.",
   applicationName: "TimeLyn",
   openGraph: {
     title: "TimeLyn",

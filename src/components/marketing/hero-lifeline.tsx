@@ -33,7 +33,7 @@ export function HeroLifeline() {
     <MotionConfig reducedMotion="user">
       <div className="relative h-36" aria-hidden="true">
         <motion.div
-          className="absolute inset-x-0 top-[2.43rem] h-[11px] origin-left border-y-[length:var(--line)] border-black bg-paper"
+          className="absolute inset-x-0 top-[2.55rem] h-[8px] origin-left rounded-full bg-black"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
@@ -49,7 +49,7 @@ export function HeroLifeline() {
           >
             <p className="border-[length:var(--line-thin)] rounded-[var(--radius-pill)] border-black bg-black px-1.5 font-display text-small text-white">{p.year}</p>
             <span className={cn("marker mt-2 block", p.fill, p.milestone ? "size-6 rotate-45" : "size-6")} />
-            <p className="mt-3 whitespace-nowrap border-[length:var(--line-thin)] rounded-[var(--radius-pill)] border-black bg-paper px-2 py-0.5 text-small font-bold">{p.label}</p>
+            <p className="mt-3 whitespace-nowrap border-[length:var(--line-thin)] rounded-[var(--radius-pill)] border-black bg-paper-raised px-2 py-0.5 text-small font-bold max-md:hidden">{p.label}</p>
           </motion.div>
         ))}
         <motion.div

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { HeroLifeline } from "@/components/marketing/hero-lifeline";
+import { HeroVideo } from "@/components/marketing/hero-video";
 import { AudioPlayer } from "@/components/timeline/audio-player";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
@@ -42,12 +43,6 @@ function ExcerptCard({
   );
 }
 
-const STEPS = [
-  ["Begin with a birth", "Enter their name and when they were born. The lifeline starts there, and every moment finds its place along it.", "bg-pop"],
-  ["Invite the family", "Send a private link to the people who knew them. Each person can add, or simply read, as you choose.", "bg-mint"],
-  ["Approve what arrives", "Contributions wait for you, the story keeper. Publish them, ask a question, or politely leave one out.", "bg-sun"],
-  ["Keep it for good", "The story is private to its members and grows for as long as you like, whether or not they are still with you.", "bg-coral"],
-] as const;
 
 export default function Home() {
   const { story, moments } = exampleStory();
@@ -59,43 +54,73 @@ export default function Home() {
 
   return (
     <main id="main">
-      {/* Hero */}
+      {/* Hero: say plainly what TimeLyn is, then show it */}
       <section className="border-b-[length:var(--line)] border-black bg-pop">
-        <div className="mx-auto max-w-[90rem] px-4 pb-10 pt-14 sm:px-8 lg:pt-20">
-          <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
+        <div className="mx-auto max-w-[90rem] px-4 pb-14 pt-12 sm:px-8 lg:pb-16 lg:pt-16">
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
             <div>
-              <h1 className="text-[clamp(3rem,8.5vw,8rem)] display-case leading-[0.86] tracking-[-0.035em]">
-                Every life is a story worth keeping.
+              <h1 className="text-[clamp(2.6rem,5.4vw,5rem)] display-case leading-[0.92] tracking-[-0.035em]">
+                Build the story of someone&rsquo;s life, together.
               </h1>
-              <p className="mt-8 max-w-[34rem] text-lede font-medium">
-                TimeLyn gathers a family&rsquo;s photos, memories and voices into one life story, in order from the day
-                someone was born. Private, and kept by the people who knew them best.
+              <p className="mt-6 max-w-[34rem] text-lede font-medium">
+                TimeLyn is a private online timeline of one person&rsquo;s life, from the day they were born to today. Their
+                family add photos, memories and voice notes, and it all falls into place, year by year.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <ButtonLink href="/sign-up" variant="loudSun" size="lg">
                   Start a story
                 </ButtonLink>
                 <ButtonLink href="/example" variant="secondary" size="lg">
-                  Read Peggy&rsquo;s story
+                  See an example
                 </ButtonLink>
               </div>
             </div>
-            <div className="relative mx-auto hidden w-full max-w-[22rem] lg:block">
-              <div className="brutal-lg rotate-3 bg-paper p-3">
-                <span aria-hidden="true" className="absolute -top-4 left-1/2 z-[1] h-7 w-24 -translate-x-1/2 -rotate-6 border-[length:var(--line-thin)] border-black bg-sun/90" />
-                <div className="relative aspect-[4/5] overflow-hidden rounded-[calc(var(--radius)*0.6)] border-[length:var(--line)] border-black">
-                  <Image src="/demo/whitby-return-2021.jpg" alt="Whitby at dusk" fill priority sizes="22rem" className="object-cover" />
-                </div>
-                <p className="mt-3 font-display text-small display-case">Peggy, back in Whitby at 70</p>
-              </div>
-              <div className="absolute -bottom-6 -left-10 flex size-28 -rotate-12 items-center justify-center rounded-full border-[length:var(--button-line)] border-black bg-pink text-center font-display text-small leading-tight">
-                75 AND
-                <br />
-                COUNTING
-              </div>
-            </div>
+            <HeroVideo />
           </div>
-          <div className="mt-16 px-14 sm:px-16">
+
+          <ol className="mt-12 grid gap-4 sm:grid-cols-3">
+            {[
+              ["Pick someone", "A mum, a grandad, a best friend, or yourself. Living or remembered."],
+              ["Invite the family", "Send them a private link. They add the photos and stories they have."],
+              ["Watch their life fill in", "Every memory lands in its year. You approve what goes in."],
+            ].map(([title, body], i) => (
+              <li key={title} className="brutal flex gap-4 p-5">
+                <span className="font-display text-[2.5rem] leading-none">{i + 1}</span>
+                <span>
+                  <span className="block text-body font-bold">{title}</span>
+                  <span className="mt-1 block text-ui font-medium text-ink-soft">{body}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Who it's for: concrete reasons to start */}
+      <section className="border-b-[length:var(--line)] border-black bg-paper">
+        <div className="mx-auto max-w-[90rem] px-4 py-16 sm:px-8 lg:py-20">
+          <h2 className="text-[clamp(2rem,3.5vw,3rem)] display-case leading-[0.95]">What people use it for</h2>
+          <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ["A gift for Mum's 70th", "Get the whole family adding their favourite stories, then show her the finished timeline.", "bg-sun"],
+              ["Remembering Grandad", "Everyone adds what they remember, so the stories don't disappear with him.", "bg-mint"],
+              ["Your gran, in her own words", "Sit down together, record her voice, and let the grandkids ask their questions.", "bg-pink"],
+              ["Your own story", "Start your own timeline and invite the people who were there.", "bg-coral"],
+            ].map(([title, body, fill]) => (
+              <li key={title} className={cn("brutal p-6", fill)}>
+                <h3 className="text-h3">{title}</h3>
+                <p className="mt-2 text-body font-medium">{body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* The lifeline, drawn */}
+      <section className="dots border-b-[length:var(--line)] border-black">
+        <div className="mx-auto max-w-[90rem] px-4 pb-14 pt-16 sm:px-8">
+          <p className="text-center text-body font-bold">One life, from the day they were born:</p>
+          <div className="mt-8 px-14 sm:px-16">
             <HeroLifeline />
           </div>
         </div>
@@ -156,22 +181,6 @@ export default function Home() {
               </div>
             </ExcerptCard>
           </div>
-        </div>
-      </section>
-
-      {/* How a story grows */}
-      <section className="border-b-[length:var(--line)] border-black bg-paper">
-        <div className="mx-auto max-w-[90rem] px-4 py-20 sm:px-8 lg:py-24">
-          <h2 className="text-[clamp(2.25rem,4vw,3.5rem)] display-case leading-[0.9]">How a story grows</h2>
-          <ol className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map(([title, body, fill], i) => (
-              <li key={title} className={cn("brutal p-6", fill)}>
-                <span className="font-display text-[3.5rem] leading-none">{i + 1}</span>
-                <h3 className="mt-4 text-h3">{title}</h3>
-                <p className="mt-2 text-body font-medium">{body}</p>
-              </li>
-            ))}
-          </ol>
         </div>
       </section>
 

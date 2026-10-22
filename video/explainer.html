@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TimeLyn explainer</title>
+<style>
+@font-face { font-family: "Brico"; src: url(assets/bricolage-grotesque-latin-wght-normal.woff2) format("woff2"); font-weight: 200 800; }
+@font-face { font-family: "Note"; src: url(assets/caveat-latin-wght-normal.woff2) format("woff2"); font-weight: 400 700; }
+:root { --ink:#0b0b12; --lime:#e4ff7a; --pop:#8c9bff; --sun:#ffc233; --mint:#4ee6c4; --coral:#ff8a6b; --pink:#ff8ac6; }
+* { box-sizing: border-box; }
+html, body { margin: 0; background: #000; }
+#stage { position: relative; width: 1280px; height: 720px; overflow: hidden; background: var(--lime); font-family: "Brico", system-ui, sans-serif; color: var(--ink); }
+.abs { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+.caption { left: 64px; top: 46px; width: 1150px; font-size: 56px; font-weight: 800; letter-spacing: -0.035em; line-height: 1.02; }
+.polaroid { width: 200px; background: #fff; padding: 10px 10px 0; border-radius: 16px; box-shadow: 0 10px 24px rgb(11 11 18 / 0.18); }
+.polaroid img { display: block; width: 180px; height: 135px; object-fit: cover; border-radius: 10px; }
+.polaroid .cap { height: 34px; display: flex; align-items: center; justify-content: center; font-family: "Note"; font-weight: 700; font-size: 22px; }
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; border: 2.5px solid var(--ink); background: #fff; font-weight: 700; font-size: 18px; white-space: nowrap; }
+.note { font-family: "Note"; font-weight: 700; font-size: 30px; white-space: nowrap; }
+.dot { width: 22px; height: 22px; border-radius: 50%; border: 3px solid var(--ink); }
+.avatar { width: 92px; height: 92px; border-radius: 50%; border: 3px solid var(--ink); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 40px; }
+.who { text-align: center; font-weight: 700; font-size: 18px; margin-top: 8px; white-space: nowrap; }
+.card { background: #fff; border-radius: 28px; box-shadow: 0 14px 34px rgb(11 11 18 / 0.16); }
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 54px; padding: 0 26px; border-radius: 999px; border: 2.5px solid var(--ink); font-weight: 800; font-size: 20px; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script>
+const stage = document.getElementById("stage");
+const $ = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); const el = t.content.firstChild; stage.appendChild(el); return el; };
+
+/* ---------- easing & helpers ---------- */
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const outCubic = (k) => 1 - Math.pow(1 - k, 3);
+const inOut = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+const outBack = (k) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
+function set(el, { x = 0, y = 0, s = 1, r = 0, o = 1, ox, oy } = {}) {
+  el.style.transform = `translate(${x}px, ${y}px) rotate(${r}deg) scale(${s})`;
+  el.style.opacity = o;
+  el.style.visibility = o <= 0.001 ? "hidden" : "visible";
+  if (ox !== undefined) el.style.transformOrigin = `${ox} ${oy}`;
+}
+/* fade + rise in at a, out at b */
+function inOutVis(t, a, b, d = 0.5) { return Math.min(outCubic(prog(t, a, a + d)), 1 - prog(t, b - 0.35, b)); }
+
+/* ---------- captions ---------- */
+const CAPTIONS = [
+  [0.2, 5.5, "Your family's memories are scattered everywhere."],
+  [5.6, 11.0, "TimeLyn puts one person's life in order."],
+  [11.1, 17.0, "Start a story for someone you love."],
+  [17.1, 24.0, "Invite the family to add what they remember."],
+  [24.1, 29.5, "You check everything before it goes in."],
+  [29.6, 36.0, "A whole life, told by the people who knew them."],
+];
+const caps = CAPTIONS.map(([a, b, text]) => ({ a, b, el: $(`<div class="abs caption">${text}</div>`) }));
+
+/* ---------- scene 1 & 2: scattered photos -> timeline ---------- */
+const START = 1951, END = 2026, LX0 = 215, LX1 = 1050, LY = 548;
+const yearX = (yr) => LX0 + ((yr - START) / (END - START)) * (LX1 - LX0);
+const PHOTOS = [
+  { img: "whitby-harbour-1956", cap: "Whitby, 1956", year: 1956, sx: 70, sy: 210, sr: -9, row: 0 },
+  { img: "sandsend-1959", cap: "Sandsend", year: 1959, sx: 330, sy: 300, sr: 7, row: 1 },
+  { img: "wedding-1974", cap: "the wedding!", year: 1974, sx: 560, sy: 205, sr: -4, row: 0 },
+  { img: "filey-caravan-1983", cap: "Filey", year: 1983, sx: 790, sy: 330, sr: 10, row: 1 },
+  { img: "bookshop-1992", cap: "the bookshop", year: 1992, sx: 1010, sy: 215, sr: -7, row: 0 },
+  { img: "garden-2014", cap: "Gran's garden", year: 2014, sx: 160, sy: 445, sr: 5, row: 1 },
+  { img: "whitby-return-2021", cap: "back to Whitby", year: 2021, sx: 900, sy: 455, sr: -3, row: 0 },
+];
+const photoEls = PHOTOS.map((p) => $(`<div class="abs polaroid"><img src="assets/${p.img}.jpg"><div class="cap">${p.cap}</div></div>`));
+const PLACES = [
+  { text: "on Mum's phone", x: 560, y: 470, r: -3 },
+  { text: "in the loft", x: 70, y: 640, r: 2 },
+  { text: "a shoebox somewhere", x: 960, y: 640, r: -2 },
+  { text: "only in Grandad's head", x: 360, y: 640, r: 3 },
+];
+const placeEls = PLACES.map((p) => $(`<div class="abs note">${p.text}</div>`));
+
+const lineEl = $(`<div class="abs" style="height:12px;width:${LX1 - LX0}px;background:var(--ink);border-radius:6px"></div>`);
+const bornEl = $(`<div class="abs chip" style="background:var(--sun)">Born 1951</div>`);
+const todayEl = $(`<div class="abs chip" style="background:#fff">Today</div>`);
+const yearEls = PHOTOS.map((p) => $(`<div class="abs" style="font-weight:800;font-size:20px">${p.year}</div>`));
+const dotEls = PHOTOS.map((p, i) => $(`<div class="abs dot" style="background:${["#8c9bff", "#4ee6c4", "#ffc233", "#ff8a6b", "#ff8ac6", "#c6ff3d", "#8c9bff"][i]}"></div>`));
+const stemEls = PHOTOS.map(() => $(`<div class="abs" style="width:3px;background:var(--ink)"></div>`));
+/* stems sit behind the photographs */
+stemEls.slice().reverse().forEach((el) => stage.insertBefore(el, stage.firstChild));
+
+function photosScene(t) {
+  const SC = 0.6, CW = 200 * SC, CH = 179 * SC;
+  PHOTOS.forEach((p, i) => {
+    const el = photoEls[i];
+    // tumble in
+    const kin = outBack(prog(t, 0.3 + i * 0.22, 1.1 + i * 0.22));
+    const fromY = -260, fromR = p.sr * 3;
+    let x = p.sx, y = lerp(fromY, p.sy, kin), r = lerp(fromR, p.sr, kin), s = 1;
+    // move to timeline
+    const k = inOut(prog(t, 6.4 + i * 0.12, 7.6 + i * 0.12));
+    const tx = yearX(p.year) - CW / 2 - (200 - CW) / 2;
+    const ty = (p.row === 0 ? 248 : 372) - (179 - CH) / 2;
+    x = lerp(x, tx, k); y = lerp(y, ty, k); r = lerp(r, 0, k); s = lerp(1, SC, k);
+    // leave
+    const out = inOut(prog(t, 11.0, 11.8));
+    y += out * 420;
+    const o = Math.min(prog(t, 0.3 + i * 0.22, 0.6 + i * 0.22), 1 - prog(t, 11.4, 11.8));
+    set(el, { x, y, r, s, o, ox: "50%", oy: "50%" });
+
+    // stems, dots, years
+    const kd = outBack(prog(t, 7.4 + i * 0.12, 8.0 + i * 0.12));
+    const vis = Math.min(prog(t, 7.4 + i * 0.12, 7.7 + i * 0.12), 1 - prog(t, 11.0, 11.5));
+    const cx = yearX(p.year);
+    const cardBottom = (p.row === 0 ? 248 : 372) + CH;
+    stemEls[i].style.height = `${Math.max(0, LY - cardBottom) * kd}px`;
+    set(stemEls[i], { x: cx - 1.5, y: cardBottom + out * 420, o: vis });
+    set(dotEls[i], { x: cx - 11, y: LY - 5 + out * 420, s: kd, o: vis });
+    set(yearEls[i], { x: cx - 24, y: LY + (p.row === 0 ? 26 : 54) + out * 420, o: vis });
+  });
+  PLACES.forEach((p, i) => {
+    const o = Math.min(prog(t, 1.8 + i * 0.35, 2.3 + i * 0.35), 1 - prog(t, 5.6, 6.1));
+    set(placeEls[i], { x: p.x, y: p.y + (1 - outCubic(prog(t, 1.8 + i * 0.35, 2.3 + i * 0.35))) * 16, r: p.r, o });
+  });
+  const kl = inOut(prog(t, 5.9, 6.9));
+  const lo = 1 - prog(t, 11.0, 11.5);
+  const drop = inOut(prog(t, 11.0, 11.8)) * 420;
+  lineEl.style.width = `${(LX1 - LX0) * kl}px`;
+  set(lineEl, { x: LX0, y: LY + drop, o: kl > 0 ? lo : 0 });
+  const kb = outBack(prog(t, 6.2, 6.7));
+  set(bornEl, { x: LX0 - 150, y: LY - 14 + drop, s: kb, o: Math.min(kb, lo), ox: "50%", oy: "50%" });
+  const ke = outBack(prog(t, 7.0, 7.5));
+  set(todayEl, { x: LX1 + 18, y: LY - 14 + drop, s: ke, o: Math.min(ke, lo), ox: "50%", oy: "50%" });
+}
+
+/* ---------- scene 3: start a story ---------- */
+const profile = $(`<div class="abs card" style="width:520px;padding:22px;display:flex;gap:22px;align-items:center">
+  <img src="assets/cover-dawn.jpg" style="width:170px;height:170px;object-fit:cover;border-radius:20px">
+  <div>
+    <div style="font-weight:700;font-size:18px;color:#45454f">The story of</div>
+    <div id="pname" style="font-weight:800;font-size:54px;letter-spacing:-0.04em;line-height:1">&nbsp;</div>
+    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+      <span class="chip" style="background:var(--mint)">Born 1951</span><span class="chip">Whitby</span>
+    </div>
+  </div></div>`);
+const pname = profile.querySelector("#pname");
+const whoText = $(`<div class="abs" style="width:470px;font-size:30px;font-weight:600;line-height:1.25">A mum, a grandad, a best friend, or yourself. Their story starts on the day they were born.</div>`);
+const kinds = $(`<div class="abs" style="display:flex;gap:10px"><span class="chip" style="background:var(--pop)">Still with us</span><span class="chip" style="background:#fff">Remembered</span></div>`);
+
+function profileScene(t) {
+  // enter as a big card, then become the hub in scene 4
+  const kin = outBack(prog(t, 11.4, 12.1));
+  const toHub = inOut(prog(t, 17.0, 17.9));
+  const x = lerp(lerp(1300, 660, kin), 640 - 260 * 0.78, toHub);
+  const y = lerp(250, 390 - 107 * 0.78, toHub);
+  const s = lerp(1, 0.78, toHub);
+  const o = Math.min(prog(t, 11.4, 11.6), 1 - prog(t, 23.7, 24.1));
+  set(profile, { x, y, s, o, ox: "0", oy: "0" });
+  const name = "Peggy Ellison";
+  const n = Math.floor(clamp((t - 12.3) / 0.07, 0, name.length));
+  pname.textContent = n ? name.slice(0, n) : " ";
+  const wo = inOutVis(t, 13.0, 17.0);
+  set(whoText, { x: 64, y: 250 + (1 - outCubic(prog(t, 13.0, 13.5))) * 20, o: wo });
+  const ko = inOutVis(t, 14.4, 17.0);
+  set(kinds, { x: 64, y: 440 + (1 - outCubic(prog(t, 14.4, 14.9))) * 20, o: ko });
+}
+
+/* ---------- scene 4: family adds memories ---------- */
+const HUB = { x: 640, y: 405 };
+const FAMILY = [
+  { init: "R", name: "Ruth, daughter", bg: "var(--pink)", x: 150, y: 215, item: "photo" },
+  { init: "D", name: "David, son", bg: "var(--sun)", x: 1040, y: 215, item: "story" },
+  { init: "T", name: "Tom, grandson", bg: "var(--mint)", x: 150, y: 520, item: "voice" },
+  { init: "S", name: "Sandra, friend", bg: "var(--coral)", x: 1040, y: 520, item: "video" },
+];
+const famEls = FAMILY.map((f) => $(`<div class="abs" style="width:160px;display:flex;flex-direction:column;align-items:center"><div class="avatar" style="background:${f.bg}">${f.init}</div><div class="who">${f.name}</div></div>`));
+const ITEMS = {
+  photo: `<div class="polaroid" style="width:150px;padding:8px 8px 0"><img src="assets/wedding-1974.jpg" style="width:134px;height:100px"><div class="cap" style="height:28px;font-size:19px">our wedding</div></div>`,
+  story: `<div class="card" style="width:230px;padding:14px 16px;border-radius:18px;font-size:16px;font-weight:600;line-height:1.3">"It rained from start to finish and nobody minded."</div>`,
+  voice: `<div class="card" style="width:220px;padding:12px 14px;border-radius:999px;display:flex;gap:10px;align-items:center"><div style="width:40px;height:40px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z" fill="#fff"/></svg></div><div style="display:flex;gap:3px;align-items:center">${[8,14,10,18,12,16,9,13,7,15,11,6].map((h)=>`<span style="width:4px;height:${h}px;background:var(--ink);border-radius:2px"></span>`).join("")}</div><span style="font-weight:700;font-size:15px">0:22</span></div>`,
+  video: `<div class="card" style="width:190px;padding:8px;border-radius:18px"><div style="position:relative"><img src="assets/filey-caravan-1983.jpg" style="display:block;width:174px;height:104px;object-fit:cover;border-radius:12px"><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><div style="width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z" fill="#0b0b12"/></svg></div></div></div><div style="font-weight:700;font-size:15px;padding:6px 4px 2px">Filey, 1983 (video)</div></div>`,
+};
+const itemEls = FAMILY.map((f) => $(`<div class="abs">${ITEMS[f.item]}</div>`));
+const ITEM_OFFSETS = [{ x: -330, y: -175 }, { x: 110, y: -185 }, { x: -340, y: 95 }, { x: 140, y: 100 }];
+
+function familyScene(t) {
+  FAMILY.forEach((f, i) => {
+    const kin = outBack(prog(t, 17.6 + i * 0.25, 18.2 + i * 0.25));
+    const o = Math.min(prog(t, 17.6 + i * 0.25, 17.8 + i * 0.25), 1 - prog(t, 23.6, 24.0));
+    set(famEls[i], { x: f.x, y: f.y, s: kin, o, ox: "50%", oy: "30%" });
+    // the item travels from the person towards the hub and settles beside it
+    const a = 19.0 + i * 0.75;
+    const k = inOut(prog(t, a, a + 0.9));
+    const sx = f.x + 20, sy = f.y + 40;
+    const tx = HUB.x + ITEM_OFFSETS[i].x, ty = HUB.y + ITEM_OFFSETS[i].y;
+    const arc = Math.sin(k * Math.PI) * -60;
+    const io = Math.min(prog(t, a, a + 0.2), 1 - prog(t, 23.6, 24.0));
+    set(itemEls[i], { x: lerp(sx, tx, k), y: lerp(sy, ty, k) + arc, s: lerp(0.5, 1, outCubic(k)), r: lerp(i % 2 ? 8 : -8, i % 2 ? 3 : -3, k), o: io, ox: "50%", oy: "50%" });
+  });
+}
+
+/* ---------- scene 5: review ---------- */
+const review = $(`<div class="abs card" style="width:640px;padding:28px 30px">
+  <div style="display:flex;gap:10px;align-items:center"><span class="chip">around 2012</span><span style="font-weight:600;font-size:18px;color:#45454f">From Tom, grandson</span></div>
+  <div style="font-weight:800;font-size:38px;letter-spacing:-0.03em;margin-top:14px">Gran teaching me to draw</div>
+  <div style="font-size:20px;line-height:1.4;margin-top:8px;color:#24242e">She sat me at the kitchen table with one pencil and a potato, and told me I wasn't allowed anything else until I'd drawn it properly.</div>
+  <div style="display:flex;gap:12px;margin-top:22px"><span id="pub" class="btn" style="background:var(--pop)">Publish to the story</span><span class="btn" style="background:#fff">Ask for changes</span></div>
+</div>`);
+const pub = review.querySelector("#pub");
+const stamp = $(`<div class="abs" style="display:flex;align-items:center;gap:12px;padding:14px 24px;border-radius:999px;background:var(--mint);border:3px solid var(--ink);font-weight:800;font-size:26px"><svg width="26" height="26" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7" fill="none" stroke="#0b0b12" stroke-width="2.6"/></svg>Added to Peggy's story</div>`);
+const cursor = $(`<div class="abs"><svg width="40" height="48" viewBox="0 0 20 24"><path d="M2 1l15 11-7 1.5L6.5 21z" fill="#0b0b12" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></div>`);
+const reviewTag = $(`<div class="abs chip" style="background:var(--sun)">1 waiting for review</div>`);
+
+function reviewScene(t) {
+  const kin = outBack(prog(t, 24.4, 25.1));
+  const leave = inOut(prog(t, 28.0, 28.9));
+  const o = Math.min(prog(t, 24.4, 24.6), 1 - prog(t, 28.6, 29.0));
+  set(review, { x: 320 + leave * 700, y: lerp(320, 230, kin) - leave * 40, s: lerp(0.9, 1, kin) * (1 - 0.5 * leave), r: leave * 8, o, ox: "50%", oy: "50%" });
+  set(reviewTag, { x: 320, y: 178, o: inOutVis(t, 24.6, 28.2) });
+  // cursor glides to the publish button and presses it
+  const kc = inOut(prog(t, 25.4, 26.4));
+  const press = prog(t, 26.5, 26.65) - prog(t, 26.65, 26.85);
+  const cx = lerp(1150, 320 + 30 + 120, kc), cy = lerp(700, 230 + 266, kc);
+  set(cursor, { x: cx, y: cy, s: 1 - press * 0.15, o: Math.min(prog(t, 25.3, 25.5), 1 - prog(t, 27.6, 27.9)) });
+  pub.style.transform = `scale(${1 - press * 0.08})`;
+  pub.style.background = t > 26.7 ? "#0b0b12" : "#8c9bff";
+  pub.style.color = t > 26.7 ? "#fff" : "#0b0b12";
+  const ks = outBack(prog(t, 26.9, 27.4));
+  set(stamp, { x: 420, y: 560, s: ks, o: Math.min(ks, 1 - prog(t, 28.8, 29.2)), ox: "50%", oy: "50%" });
+}
+
+/* ---------- scene 6: the finished story ---------- */
+const story = $(`<div class="abs" style="width:1152px;height:500px;overflow:hidden;border-radius:28px;background:#fff;box-shadow:0 14px 34px rgb(11 11 18 / 0.16)"><div id="scroll" style="position:relative;padding:28px 40px"></div></div>`);
+const scroller = story.querySelector("#scroll");
+const ENTRIES = [
+  { kind: "chapter", title: "Whitby", years: "1951 to 1966", bg: "#8c9bff" },
+  { year: 1951, title: "Born on Church Street", by: "In Peggy's own words", milestone: true },
+  { year: 1959, title: "A day at Sandsend", by: "In Peggy's own words", img: "sandsend-1959" },
+  { kind: "chapter", title: "Walter", years: "1972 to 1976", bg: "#ff8a6b" },
+  { year: 1974, title: "Wedding at St Michael's", by: "Shared by Ruth, daughter", img: "wedding-1974", milestone: true },
+  { kind: "chapter", title: "Ellison's Books", years: "1992 to 2009", bg: "#4ee6c4" },
+  { year: 1992, title: "Opening the bookshop", by: "Shared by Ruth, daughter", img: "bookshop-1992" },
+  { kind: "chapter", title: "The garden years", years: "2010 onwards", bg: "#ffc233" },
+  { year: 2019, title: "The sound of Sandsend", by: "Shared by Tom, grandson", voice: true },
+  { year: 2021, title: "Seventy, and back to Whitby", by: "Shared by David, son", img: "whitby-return-2021", milestone: true },
+];
+scroller.innerHTML = `<div style="position:absolute;left:198px;top:0;bottom:0;width:4px;background:#0b0b12"></div>` + ENTRIES.map((e) => {
+  if (e.kind === "chapter") return `<div style="display:grid;grid-template-columns:170px 60px 1fr;align-items:center;padding:26px 0 14px"><div></div><div style="position:relative"><span style="position:absolute;left:-2px;top:-14px;width:30px;height:30px;border-radius:50%;border:3px solid #0b0b12;background:${e.bg}"></span></div><div><span class="chip" style="background:#0b0b12;color:#fff;border-color:#0b0b12;font-size:15px">${e.years}</span><div style="font-weight:800;font-size:40px;letter-spacing:-0.035em;margin-top:6px"><span style="background:${e.bg};padding:0 8px;border-radius:10px">${e.title}</span></div></div></div>`;
+  return `<div style="display:grid;grid-template-columns:170px 60px 1fr;padding:12px 0"><div style="text-align:right;padding-right:22px;font-weight:800;font-size:34px">${e.year}</div><div style="position:relative"><span style="position:absolute;left:3px;top:14px;width:20px;height:20px;border-radius:50%;border:3px solid #0b0b12;background:${e.milestone ? "#ffc233" : "#fff"}"></span></div><div style="width:620px;border-radius:22px;overflow:hidden;background:${e.milestone ? "#ffc233" : "#f6f6f2"}">${e.img ? `<img src="assets/${e.img}.jpg" style="display:block;width:620px;height:190px;object-fit:cover">` : ""}<div style="padding:14px 18px">${e.voice ? `<div style="display:flex;gap:4px;align-items:center;margin-bottom:8px">${[10,18,12,22,14,20,10,16,8,18,12,6,14,20,10].map((h)=>`<span style="width:5px;height:${h}px;background:#0b0b12;border-radius:2px"></span>`).join("")}</div>` : ""}<div style="font-weight:800;font-size:24px;letter-spacing:-0.02em">${e.title}</div><div style="font-size:15px;font-weight:600;color:#45454f;margin-top:4px">${e.by}</div></div></div></div>`;
+}).join("");
+
+function storyScene(t) {
+  const kin = outCubic(prog(t, 29.6, 30.4));
+  const o = Math.min(prog(t, 29.6, 29.9), 1 - prog(t, 35.7, 36.1));
+  set(story, { x: 64, y: 190 + (1 - kin) * 80, o });
+  const total = scroller.scrollHeight - 500;
+  const k = inOut(prog(t, 30.6, 35.6));
+  scroller.style.transform = `translateY(${-total * k}px)`;
+}
+
+/* ---------- scene 7: end card ---------- */
+const end = $(`<div class="abs" style="width:1280px;height:720px;background:var(--pop);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+  <div style="display:flex;align-items:center;gap:16px;font-weight:800;font-size:64px;letter-spacing:-0.04em">
+    <svg width="96" height="45" viewBox="0 0 30 14"><path d="M0 7h17" stroke="#0b0b12" stroke-width="3.5"/><rect x="17.75" y="1.75" width="10.5" height="10.5" fill="#e4ff7a" stroke="#0b0b12" stroke-width="3.5"/></svg>TimeLyn</div>
+  <div style="font-weight:800;font-size:76px;letter-spacing:-0.045em;line-height:0.98;margin-top:30px;max-width:1000px">Every life is a story worth keeping.</div>
+  <div style="font-size:26px;font-weight:600;margin-top:22px">Private, and shared only with the family you invite.</div>
+  <div class="btn" style="margin-top:34px;background:var(--lime);height:68px;font-size:26px;padding:0 38px">Start a story today</div>
+</div>`);
+function endScene(t) {
+  const k = inOut(prog(t, 36.0, 36.8));
+  set(end, { x: 0, y: (1 - k) * 720, o: k > 0 ? 1 : 0 });
+}
+
+/* small logo, bottom left */
+const mark = $(`<div class="abs" style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:22px;letter-spacing:-0.02em"><svg width="44" height="20" viewBox="0 0 30 14"><path d="M0 7h17" stroke="#0b0b12" stroke-width="3.5"/><rect x="17.75" y="1.75" width="10.5" height="10.5" fill="#8c9bff" stroke="#0b0b12" stroke-width="3.5"/></svg>TimeLyn</div>`);
+
+function render(t) {
+  caps.forEach((c) => {
+    const kin = outCubic(prog(t, c.a, c.a + 0.5));
+    const o = Math.min(kin, 1 - prog(t, c.b - 0.35, c.b));
+    set(c.el, { x: 64, y: 46 + (1 - kin) * 24, o });
+    c.el.style.left = "0"; c.el.style.top = "0";
+  });
+  photosScene(t);
+  profileScene(t);
+  familyScene(t);
+  reviewScene(t);
+  storyScene(t);
+  set(mark, { x: 1110, y: 672, o: 1 - prog(t, 35.8, 36.2) });
+  endScene(t);
+}
+window.DURATION = 41;
+window.render = render;
+render(0);
+</script>
+</body>
+</html>

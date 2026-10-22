@@ -26,7 +26,7 @@ export async function SiteHeader() {
               <Link href="/sign-in" className="whitespace-nowrap text-ui font-bold hover:bg-sun">
                 Sign in
               </Link>
-              <ButtonLink href="/sign-up" size="sm">
+              <ButtonLink href="/sign-up" size="sm" className="max-sm:hidden">
                 Start a story
               </ButtonLink>
             </>
