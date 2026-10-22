@@ -40,7 +40,7 @@ export default async function SignInPage({ searchParams }: PageProps<"/sign-in">
       ) : null}
       <SignInForm next={next} />
       <p className="mt-8 text-ui text-ink-soft">
-        New to Everline? <Link href={signUpHref} className="link">Create an account</Link>
+        New to TimeLyn? <Link href={signUpHref} className="link">Create an account</Link>
       </p>
     </AuthShell>
   );

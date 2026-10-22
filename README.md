@@ -1,8 +1,8 @@
-# Everline
+# TimeLyn
 
 **Every life is a story worth keeping.**
 
-Everline is a collaborative life-story platform. A family builds one person's story as a chronological timeline, from the day they were born through childhood, work, marriage, family, ordinary days and later life. Relatives contribute photographs, written memories, video and voice recordings; a designated story keeper approves each contribution before it appears. It works for people who are still living as well as for those who have died.
+TimeLyn is a collaborative life-story platform. A family builds one person's story as a chronological timeline, from the day they were born through childhood, work, marriage, family, ordinary days and later life. Relatives contribute photographs, written memories, video and voice recordings; a designated story keeper approves each contribution before it appears. It works for people who are still living as well as for those who have died.
 
 This repository is the first release: a working Next.js application with a Supabase backend, Row Level Security, file storage and a clearly labelled local demo mode.
 
@@ -50,7 +50,7 @@ npm run dev
 
 Open <http://localhost:3000>.
 
-Without Supabase credentials Everline starts in **demo mode**:
+Without Supabase credentials TimeLyn starts in **demo mode**:
 
 - A banner on every page says so.
 - Data lives in server memory, seeded with the fictional Ellison family, and resets when the server restarts.
@@ -78,8 +78,8 @@ The demo photographs in `public/demo` are generated procedurally (`npm run media
    Or paste the files in `supabase/migrations/` into the SQL editor, in filename order.
 
 3. **Configure Auth** in the Supabase dashboard (Authentication > URL Configuration):
-   - Site URL: your deployed URL, for example `https://everline.example.com`
-   - Redirect URLs: `https://everline.example.com/auth/callback` (and `http://localhost:3000/auth/callback` for local work)
+   - Site URL: your deployed URL, for example `https://timelyn.example.com`
+   - Redirect URLs: `https://timelyn.example.com/auth/callback` (and `http://localhost:3000/auth/callback` for local work)
    - Keep email confirmations on for production.
    - Set the minimum password length to 10 to match the app's own rule.
 
@@ -181,14 +181,14 @@ npm run test:db     # Only the RLS tests
 
 ## Design system
 
-Everline is meant to feel like an editorial biography or a documentary, not a dashboard.
+TimeLyn uses a neo-brutal look: black ink, 3px outlines, hard offset shadows and flat, saturated fills. It is aimed at a younger audience without shutting out older family members.
 
-- **Palette** from the photographic darkroom, defined as CSS variables in `src/app/globals.css` with a dark scheme: baryta paper `#eef0ec`, graphite ink `#1f2629`, cyanotype blue `#24507a` (the lifeline and links), gold toner `#84601c` (milestones only), and a deep cyanotype night `#1b2a35` for photographic surfaces.
-- **Type:** Newsreader (variable, with optical sizes) for names, years and stories; Schibsted Grotesk for the interface. Years use old-style figures.
-- **The lifeline** is the one signature element: a continuous rule that fills with ink as you read, with large year numerals in a sticky gutter. Motion is limited to that, a single arrival sequence on story pages, and responses to what people do.
-- Accessibility: semantic landmarks, labelled controls, visible focus, reduced-motion support, and text colours checked against WCAG AA with axe.
-
----
+- **Tokens** live in `src/app/globals.css` under `:root`. Fills carry meaning: pop blue `#93c5fd` is the brand and primary action, sun yellow `#ffd23f` marks milestones, mint `#5eead4` marks people and success, coral `#ff7a59` marks stand-out moments. Text on every fill is black.
+- **Type:** Archivo Black for names, headings and loud buttons (often upper case); Space Grotesk for everything else.
+- **Building blocks:** `.brutal` (outlined card with a hard shadow), `.tag` (small outlined label), `.press` (buttons that sink into their shadow when pressed), `.dots` (dotted grid paper).
+- **The lifeline** is the signature element: a black rule that fills into a thick blue bar as you read, with square markers (yellow diamonds for milestones) and big year numbers in a sticky gutter.
+- **Themes later:** scrapbook and bold-colour directions were shortlisted. Because colour, borders and shadows are all tokens, a second theme is a new token block rather than a rewrite.
+- Accessibility: semantic landmarks, labelled controls, visible focus, reduced-motion support, and every page checked with axe (WCAG 2 A/AA plus best practice).
 
 ## Known limitations and next steps
 

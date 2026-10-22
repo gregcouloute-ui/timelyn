@@ -11,17 +11,17 @@ import { loadStoryPage } from "@/lib/story-page";
 export const metadata: Metadata = { title: "Your contributions" };
 
 const GROUPS: { status: MomentStatus; title: string; empty?: string; tone: string }[] = [
-  { status: "changes_requested", title: "Needs your attention", tone: "border-gold" },
-  { status: "pending", title: "Waiting for review", tone: "border-rule-strong" },
-  { status: "published", title: "In the story", tone: "border-cyan" },
-  { status: "declined", title: "Not included", tone: "border-rule" },
+  { status: "changes_requested", title: "Needs your attention", tone: "bg-sun" },
+  { status: "pending", title: "Waiting for review", tone: "bg-pop" },
+  { status: "published", title: "In the story", tone: "bg-mint" },
+  { status: "declined", title: "Not included", tone: "bg-paper" },
 ];
 
 function Row({ m, slug }: { m: Moment; slug: string }) {
   return (
     <li className="grid gap-2 py-5 sm:grid-cols-[1fr_auto] sm:items-start sm:gap-8">
       <div>
-        <Link href={`/s/${slug}/m/${m.id}`} className="font-serif text-h3 text-ink hover:text-cyan">
+        <Link href={`/s/${slug}/m/${m.id}`} className="text-h3 font-bold text-ink hover:bg-pop">
           {m.title}
         </Link>
         <p className="mt-1 text-small text-ink-soft">
@@ -29,7 +29,7 @@ function Row({ m, slug }: { m: Moment; slug: string }) {
           {m.media.length ? `, with ${m.media.length} ${m.media.length === 1 ? "file" : "files"}` : ""}
         </p>
         {m.reviewNote && m.status !== "published" ? (
-          <p className="mt-3 max-w-xl font-serif text-body italic text-ink">&ldquo;{m.reviewNote}&rdquo;</p>
+          <p className="mt-3 max-w-xl text-body font-medium text-ink">&ldquo;{m.reviewNote}&rdquo;</p>
         ) : null}
       </div>
       {m.status === "changes_requested" || m.status === "pending" ? (
@@ -51,11 +51,11 @@ export default async function MinePage({ params, searchParams }: PageProps<"/s/[
     <main id="main" className="mx-auto w-full max-w-4xl px-4 pb-24 pt-10 sm:px-8 sm:pt-14">
       <Notice value={query.notice} className="mb-8" />
       <div className="flex flex-wrap items-end justify-between gap-6">
-        <h1 className="text-h1">Your contributions</h1>
+        <h1 className="text-h1 uppercase">Your contributions</h1>
         {atLeast(role, "contributor") ? <ButtonLink href={`/s/${slug}/add`}>Add a moment</ButtonLink> : null}
       </div>
       {mine.length === 0 ? (
-        <p className="mt-10 border-t border-rule pt-8 text-body text-ink-soft">
+        <p className="mt-10 border-t-[3px] border-black pt-8 text-body text-ink-soft">
           You haven&rsquo;t added anything yet. Photographs, a story you&rsquo;ve been told, a recording of a voice: it
           all helps.
         </p>
@@ -65,10 +65,10 @@ export default async function MinePage({ params, searchParams }: PageProps<"/s/[
           if (!items.length) return null;
           return (
             <section key={g.status} className="mt-12" aria-labelledby={`group-${g.status}`}>
-              <h2 id={`group-${g.status}`} className={cn("border-l-2 pl-3 font-sans text-ui font-semibold text-ink", g.tone)}>
-                {g.title} <span className="font-normal text-ink-faint">{items.length}</span>
+              <h2 id={`group-${g.status}`} className={cn("tag font-sans text-ui", g.tone)}>
+                {g.title} <span className="font-normal">{items.length}</span>
               </h2>
-              <ul className="mt-2 divide-y divide-rule border-b border-rule">
+              <ul className="mt-2 divide-y-2 divide-black border-b-[3px] border-black">
                 {items.map((m) => (
                   <Row key={m.id} m={m} slug={slug} />
                 ))}

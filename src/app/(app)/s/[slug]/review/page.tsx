@@ -20,7 +20,7 @@ export default async function ReviewPage({ params }: PageProps<"/s/[slug]/review
 
   return (
     <main id="main" className="mx-auto w-full max-w-6xl px-4 pb-24 pt-10 sm:px-8 sm:pt-14">
-      <h1 className="text-h1">Review</h1>
+      <h1 className="text-h1 uppercase">Review</h1>
       <p className="mt-4 max-w-2xl text-body text-ink-soft">
         Nothing appears in {first}&rsquo;s story until you or another editor publishes it. If something needs a date
         checked or a name added, send it back with a note.
@@ -35,7 +35,7 @@ export default async function ReviewPage({ params }: PageProps<"/s/[slug]/review
             <ReviewList moments={pending} action={reviewAction.bind(null, slug)} />
           </div>
         ) : (
-          <p className="mt-4 border-t border-rule pt-6 text-body text-ink-soft">
+          <p className="mt-4 border-t-[3px] border-black pt-6 text-body text-ink-soft">
             You&rsquo;re up to date. New contributions will appear here.
           </p>
         )}
@@ -44,11 +44,11 @@ export default async function ReviewPage({ params }: PageProps<"/s/[slug]/review
       {returned.length ? (
         <section className="mt-16" aria-labelledby="returned">
           <h2 id="returned" className="text-h3">Sent back for changes</h2>
-          <ul className="mt-4 divide-y divide-rule border-y border-rule">
+          <ul className="mt-4 divide-y-2 divide-black border-y-[3px] border-black">
             {returned.map((m) => (
               <li key={m.id} className="grid gap-1 py-4 sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-6">
                 <div>
-                  <Link href={`/s/${slug}/m/${m.id}`} className="font-serif text-body text-ink hover:text-cyan">
+                  <Link href={`/s/${slug}/m/${m.id}`} className="text-body font-bold text-ink hover:bg-pop">
                     {m.title}
                   </Link>
                   <p className="text-small text-ink-soft">

@@ -57,8 +57,8 @@ export function ChapterNav({ chapters }: { chapters: NavChapter[] }) {
   if (chapters.length < 2) return null;
 
   return (
-    <nav aria-label="Chapters" className="sticky top-0 z-20 border-b border-rule bg-paper/95 backdrop-blur-sm">
-      <ul ref={listRef} className="mx-auto flex max-w-[90rem] gap-1 overflow-x-auto px-2 sm:px-6 [scrollbar-width:none]">
+    <nav aria-label="Chapters" className="sticky top-0 z-20 border-y-[3px] border-black bg-paper">
+      <ul ref={listRef} className="mx-auto flex max-w-[90rem] gap-2 overflow-x-auto px-2 py-2 sm:px-6 [scrollbar-width:none]">
         {chapters.map((c) => {
           const isActive = active === c.id;
           return (
@@ -67,12 +67,12 @@ export function ChapterNav({ chapters }: { chapters: NavChapter[] }) {
                 href={`#chapter-${c.id}`}
                 aria-current={isActive ? "location" : undefined}
                 className={cn(
-                  "flex items-baseline gap-2 border-b-2 px-2.5 py-3 text-small transition-colors",
-                  isActive ? "border-cyan text-ink" : "border-transparent text-ink-soft hover:text-ink",
+                  "flex h-10 items-baseline gap-2 border-2 px-3 pt-[0.55rem] text-small transition-colors",
+                  isActive ? "border-black bg-pop text-black" : "border-transparent text-ink-soft hover:border-black hover:text-black",
                 )}
               >
-                <span className="font-medium">{c.title}</span>
-                <span className="text-caption text-ink-faint numerals-oldstyle">{c.years}</span>
+                <span className="font-bold">{c.title}</span>
+                <span className="text-caption text-ink-soft numerals-tabular">{c.years}</span>
               </a>
             </li>
           );

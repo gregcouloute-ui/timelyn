@@ -2,23 +2,31 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "quiet" | "danger" | "onNight";
-type Size = "md" | "sm";
+type Variant = "primary" | "secondary" | "quiet" | "danger" | "onNight" | "loud" | "loudSun";
+type Size = "md" | "sm" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-sans font-medium transition-[background-color,color,border-color,box-shadow] duration-150 disabled:pointer-events-none disabled:opacity-50 select-none";
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-bold text-black select-none disabled:pointer-events-none disabled:opacity-50";
+
+const boxed = "press";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-ink text-paper hover:bg-cyan-strong rounded-soft",
-  secondary: "border border-rule-strong text-ink hover:border-ink bg-transparent rounded-soft",
-  quiet: "text-cyan hover:text-cyan-strong underline-offset-4 hover:underline",
-  danger: "bg-danger text-paper hover:opacity-90 rounded-soft",
-  onNight: "bg-night-ink text-night hover:bg-white rounded-soft",
+  /** The main action on a screen. */
+  primary: `${boxed} bg-pop`,
+  secondary: `${boxed} bg-paper`,
+  quiet: "text-cyan underline decoration-2 underline-offset-4 hover:bg-sun hover:text-black",
+  danger: `${boxed} bg-coral`,
+  /** Primary action on black surfaces. */
+  onNight: `${boxed} bg-sun border-white [--press-shadow:3px_3px_0_#fff] [--press-shadow-hover:5px_5px_0_#fff]`,
+  /** Hero calls to action: display face, upper case. */
+  loud: `${boxed} bg-pop font-display! font-normal! uppercase tracking-wide`,
+  loudSun: `${boxed} bg-sun font-display! font-normal! uppercase tracking-wide`,
 };
 
 const sizes: Record<Size, string> = {
-  md: "h-11 px-5 text-ui",
-  sm: "h-9 px-3.5 text-small",
+  sm: "h-10 px-3.5 text-small",
+  md: "h-12 px-5 text-ui",
+  lg: "h-14 px-7 text-body",
 };
 
 export function buttonClass(variant: Variant = "primary", size: Size = "md", className?: string) {
@@ -50,8 +58,8 @@ export function ButtonLink({ variant = "primary", size = "md", className, ...pro
 export function Spinner({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 16 16" className={cn("size-4 animate-spin", className)} aria-hidden="true">
-      <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" strokeOpacity="0.25" strokeWidth="1.5" />
-      <path d="M14.5 8A6.5 6.5 0 0 0 8 1.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2.5" />
+      <path d="M14 8A6 6 0 0 0 8 2" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" />
     </svg>
   );
 }

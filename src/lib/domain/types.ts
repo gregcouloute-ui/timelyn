@@ -1,5 +1,5 @@
 /**
- * Everline domain model.
+ * TimeLyn domain model.
  *
  * These types are the shared language between the data layer, application
  * services and the interface. They are deliberately independent of Supabase

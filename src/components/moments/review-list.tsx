@@ -40,9 +40,9 @@ function ReviewCard({ moment, action, onReviewed }: { moment: Moment; action: Re
   return (
     <motion.article
       layout
-      exit={{ opacity: 0, height: 0, paddingTop: 0, paddingBottom: 0 }}
+      exit={{ opacity: 0, x: 40 }}
       transition={{ duration: 0.25 }}
-      className="grid gap-8 overflow-hidden border-t border-rule py-10 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-14"
+      className="brutal mb-8 grid gap-8 p-6 lg:grid-cols-[minmax(0,1fr)_19rem] lg:gap-12"
       aria-labelledby={`review-${moment.id}`}
     >
       <div className="min-w-0">
@@ -61,7 +61,7 @@ function ReviewCard({ moment, action, onReviewed }: { moment: Moment; action: Re
           <div className="mt-5 grid max-w-2xl grid-cols-2 gap-2.5 sm:grid-cols-3">
             {images.map((m) => (
               <figure key={m.id}>
-                <div className="overflow-hidden rounded-frame">
+                <div className="overflow-hidden border-[3px] border-black">
                   <StoryImage media={m} sizes="14rem" className="aspect-[4/3] object-cover" />
                 </div>
                 {m.caption ? <figcaption className="mt-1 text-caption text-ink-soft">{m.caption}</figcaption> : null}
@@ -82,18 +82,18 @@ function ReviewCard({ moment, action, onReviewed }: { moment: Moment; action: Re
         {moment.people.length ? <p className="mt-4 text-small text-ink-soft">With {listJoin(moment.people)}.</p> : null}
       </div>
 
-      <form action={formAction} className="flex flex-col gap-4 self-start lg:sticky lg:top-6">
+      <form action={formAction} className="flex flex-col gap-4 self-start border-[3px] border-black bg-paper-sunk p-4 lg:sticky lg:top-6">
         <input type="hidden" name="momentId" value={moment.id} />
         <input type="hidden" name="decision" value={mode ?? "publish"} />
-        <label className="inline-flex cursor-pointer items-center gap-2.5 text-ui text-ink">
-          <input type="checkbox" name="isMilestone" className="size-4 accent-[var(--cyan)]" defaultChecked={moment.isMilestone} />
+        <label className="inline-flex cursor-pointer items-center gap-2.5 text-ui font-bold text-ink">
+          <input type="checkbox" name="isMilestone" className="size-5 accent-black" defaultChecked={moment.isMilestone} />
           Mark as a milestone
         </label>
 
         <AnimatePresence initial={false}>
           {mode === "request_changes" || mode === "decline" ? (
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
-              <label htmlFor={`note-${moment.id}`} className="text-ui font-medium text-ink">
+              <label htmlFor={`note-${moment.id}`} className="text-ui font-bold text-ink">
                 {mode === "request_changes" ? `What should ${moment.contributorName.split(" ")[0]} change?` : "A note for them"}
                 {mode === "decline" ? <span className="ml-1.5 font-normal text-ink-faint">(optional)</span> : null}
               </label>
@@ -104,7 +104,7 @@ function ReviewCard({ moment, action, onReviewed }: { moment: Moment; action: Re
                 rows={4}
                 maxLength={1000}
                 aria-invalid={Boolean(error) || undefined}
-                className="mt-1.5 w-full rounded-soft border border-rule-strong bg-paper-raised px-3 py-2 text-ui text-ink focus:border-cyan focus:outline-none"
+                className="mt-1.5 w-full border-[3px] border-black bg-paper px-3 py-2 text-ui text-ink focus:shadow-[4px_4px_0_var(--pop)] focus:outline-none"
               />
             </motion.div>
           ) : null}

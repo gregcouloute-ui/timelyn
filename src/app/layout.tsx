@@ -6,16 +6,16 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl()),
   title: {
-    default: "Everline: every life is a story worth keeping",
-    template: "%s – Everline",
+    default: "TimeLyn: every life is a story worth keeping",
+    template: "%s – TimeLyn",
   },
   description:
-    "Everline gathers a family's photographs, memories and recordings into one life story, told in order from the day someone was born.",
-  applicationName: "Everline",
+    "TimeLyn gathers a family's photographs, memories and recordings into one life story, told in order from the day someone was born.",
+  applicationName: "TimeLyn",
   openGraph: {
-    title: "Everline",
+    title: "TimeLyn",
     description: "Every life is a story worth keeping.",
-    siteName: "Everline",
+    siteName: "TimeLyn",
     type: "website",
   },
   robots: { index: true, follow: true },

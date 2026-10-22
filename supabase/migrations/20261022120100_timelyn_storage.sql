@@ -1,5 +1,5 @@
 -- =============================================================================
--- Everline media storage
+-- TimeLyn media storage
 --
 -- One private bucket. Objects live at  <story_id>/<media_id>.<ext>
 -- Reading an object requires being able to read its row in public.media, so

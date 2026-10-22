@@ -1,5 +1,5 @@
 -- =============================================================================
--- Everline core schema
+-- TimeLyn core schema
 --
 -- Stories (one per person), their members and roles, chapters of life,
 -- moments contributed by family, media, invitations and a review log.

@@ -20,7 +20,7 @@ export default async function InvitePage({ params }: PageProps<"/invite/[token]"
   if (!preview) {
     return (
       <AuthShell title="This link doesn't work" intro="It may have been mistyped, or the invitation was withdrawn. Ask the person who sent it for a new one.">
-        <ButtonLink href="/" variant="secondary">Go to Everline</ButtonLink>
+        <ButtonLink href="/" variant="secondary">Go to TimeLyn</ButtonLink>
       </AuthShell>
     );
   }
@@ -46,7 +46,7 @@ export default async function InvitePage({ params }: PageProps<"/invite/[token]"
   const intro = (
     <>
       <p>
-        {preview.invitedByName ?? "Someone in your family"} has invited you to {name}&rsquo;s story on Everline, as a{" "}
+        {preview.invitedByName ?? "Someone in your family"} has invited you to {name}&rsquo;s story on TimeLyn, as a{" "}
         {ROLE_LABEL[preview.role].toLowerCase()}.
       </p>
       <p className="mt-2 text-ui">{ROLE_DESCRIPTION[preview.role]}</p>

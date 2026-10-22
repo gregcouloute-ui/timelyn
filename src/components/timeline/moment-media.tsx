@@ -5,8 +5,8 @@ import { AudioPlayer } from "./audio-player";
 import { StoryImage } from "./story-image";
 
 /**
- * How a moment's photographs sit in the timeline. One photograph is shown
- * wide; two side by side; three or more as a lead image and a strip.
+ * A moment's photographs inside its card. One photograph runs edge to edge;
+ * two sit side by side; three or more become a lead image and a strip.
  */
 export function TimelinePhotos({ images, href, title }: { images: Media[]; href: string; title: string }) {
   if (images.length === 0) return null;
@@ -16,10 +16,10 @@ export function TimelinePhotos({ images, href, title }: { images: Media[]; href:
 
   if (images.length === 2) {
     return (
-      <div className="grid grid-cols-2 gap-2.5">
-        {images.map((m) => (
-          <Link key={m.id} href={href} className="block overflow-hidden rounded-frame" aria-label={`Open ${title}`}>
-            <StoryImage media={m} sizes="(min-width: 1024px) 26rem, 50vw" className="aspect-[4/5] object-cover" />
+      <div className="grid grid-cols-2 border-b-[3px] border-black">
+        {images.map((m, i) => (
+          <Link key={m.id} href={href} className={cn("block overflow-hidden", i === 0 && "border-r-[3px] border-black")} aria-label={`Open ${title}`}>
+            <StoryImage media={m} sizes="(min-width: 1024px) 23rem, 50vw" className="aspect-[4/5] object-cover" />
           </Link>
         ))}
       </div>
@@ -27,25 +27,25 @@ export function TimelinePhotos({ images, href, title }: { images: Media[]; href:
   }
 
   return (
-    <figure>
-      <Link href={href} className="block overflow-hidden rounded-frame" aria-label={`Open ${title}`}>
-        <StoryImage media={lead} sizes="(min-width: 1024px) 52rem, 100vw" />
+    <figure className="border-b-[3px] border-black">
+      <Link href={href} className="block overflow-hidden" aria-label={`Open ${title}`}>
+        <StoryImage media={lead} sizes="(min-width: 1024px) 46rem, 100vw" />
       </Link>
       {strip.length ? (
-        <div className="mt-2.5 grid grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-3 border-t-[3px] border-black">
           {strip.map((m, i) => (
-            <Link key={m.id} href={href} className="relative block overflow-hidden rounded-frame" aria-label={`Open ${title}`}>
-              <StoryImage media={m} sizes="17rem" className="aspect-[3/2] object-cover" />
+            <Link key={m.id} href={href} className={cn("relative block overflow-hidden", i < strip.length - 1 && "border-r-[3px] border-black")} aria-label={`Open ${title}`}>
+              <StoryImage media={m} sizes="15rem" className="aspect-[3/2] object-cover" />
               {hidden > 0 && i === strip.length - 1 ? (
-                <span className="absolute inset-0 flex items-center justify-center bg-night/60 font-serif text-h3 text-night-ink">
-                  +{hidden}
-                </span>
+                <span className="absolute inset-0 flex items-center justify-center bg-black/60 font-display text-h3 text-white">+{hidden}</span>
               ) : null}
             </Link>
           ))}
         </div>
       ) : null}
-      {lead.caption ? <figcaption className="mt-2.5 max-w-prose text-small text-ink-soft">{lead.caption}</figcaption> : null}
+      {lead.caption ? (
+        <figcaption className="border-t-[3px] border-black bg-paper-sunk px-4 py-2 text-small text-ink-soft">{lead.caption}</figcaption>
+      ) : null}
     </figure>
   );
 }
@@ -58,7 +58,7 @@ export function MomentRecordings({ media, title, className }: { media: Media[]; 
     <div className={cn("flex flex-col gap-4", className)}>
       {videos.map((v) => (
         <figure key={v.id}>
-          <video controls preload="metadata" playsInline className="w-full rounded-frame bg-night" src={v.url!}>
+          <video controls preload="metadata" playsInline className="w-full border-[3px] border-black bg-black" src={v.url!}>
             <track kind="captions" />
           </video>
           {v.caption ? <figcaption className="mt-2 text-small text-ink-soft">{v.caption}</figcaption> : null}

@@ -1,7 +1,7 @@
 /**
  * Runtime mode.
  *
- * Everline runs against Supabase when credentials are configured. Without
+ * TimeLyn runs against Supabase when credentials are configured. Without
  * them it starts in a clearly labelled local demonstration mode, backed by an
  * in-memory store seeded with a sample family. Demo mode never claims to
  * persist anything: changes last only as long as the server process.

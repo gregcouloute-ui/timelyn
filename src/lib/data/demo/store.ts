@@ -57,14 +57,14 @@ function freshState(): DemoState {
 }
 
 // Survive hot reloads in development; one store per server process.
-const globalStore = globalThis as unknown as { __everlineDemo?: DemoState };
+const globalStore = globalThis as unknown as { __timelynDemo?: DemoState };
 export function demoState(): DemoState {
-  if (!globalStore.__everlineDemo) globalStore.__everlineDemo = freshState();
-  return globalStore.__everlineDemo;
+  if (!globalStore.__timelynDemo) globalStore.__timelynDemo = freshState();
+  return globalStore.__timelynDemo;
 }
 
 export function resetDemoState() {
-  globalStore.__everlineDemo = freshState();
+  globalStore.__timelynDemo = freshState();
 }
 
 const sha256 = (t: string) => createHash("sha256").update(t, "utf8").digest("hex");

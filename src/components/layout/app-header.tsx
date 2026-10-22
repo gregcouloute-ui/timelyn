@@ -5,9 +5,9 @@ import { AccountMenu } from "./account-menu";
 
 export function AppHeader({ viewer }: { viewer: Viewer }) {
   return (
-    <header className="border-b border-rule bg-paper">
+    <header className="border-b-[3px] border-black bg-paper">
       <div className="mx-auto flex h-16 max-w-[90rem] items-center justify-between gap-6 px-4 sm:px-8">
-        <Link href="/stories" className="rounded-sm text-ink" aria-label="Your stories">
+        <Link href="/stories" className="text-ink" aria-label="Your stories">
           <Wordmark />
         </Link>
         <AccountMenu name={viewer.displayName} email={viewer.email} />

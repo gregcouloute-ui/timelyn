@@ -1,5 +1,5 @@
 /**
- * Runs Everline's real migrations in an embedded Postgres and checks the
+ * Runs TimeLyn's real migrations in an embedded Postgres and checks the
  * Row Level Security rules from the point of view of each kind of member.
  */
 import { readFileSync, readdirSync } from "node:fs";

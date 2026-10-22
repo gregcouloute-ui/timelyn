@@ -1,7 +1,7 @@
 import type { Moment, Role } from "./types";
 
 /**
- * Everline's authorisation model.
+ * TimeLyn's authorisation model.
  *
  *  owner        The designated administrator. Full control, including
  *               appointing editors and deleting the story.

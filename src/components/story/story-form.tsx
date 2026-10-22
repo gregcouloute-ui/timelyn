@@ -57,7 +57,7 @@ export function StoryForm({ action, story, submitLabel }: StoryFormProps) {
         </Field>
       </div>
 
-      <div className="flex flex-col gap-6 border-t border-rule pt-6">
+      <div className="flex flex-col gap-6 border-t-[3px] border-black pt-6">
         <Checkbox
           id="remembered"
           name="remembered"
@@ -66,7 +66,7 @@ export function StoryForm({ action, story, submitLabel }: StoryFormProps) {
           defaultChecked={remembered}
           onChange={(e) => setRemembered(e.target.checked)}
           label="This person has died"
-          hint="Everline is for the living as much as the remembered. Leave this unticked for someone who's still with you."
+          hint="TimeLyn is for the living as much as the remembered. Leave this unticked for someone who's still with you."
         />
         {remembered ? (
           <div className="grid gap-6 lg:grid-cols-[auto_1fr] lg:items-start">
@@ -97,7 +97,7 @@ export function StoryForm({ action, story, submitLabel }: StoryFormProps) {
       >
         <Textarea id="introduction" name="introduction" rows={4} maxLength={2000} defaultValue={val("introduction", story?.introduction)}
           aria-invalid={Boolean(errors.introduction) || undefined} aria-describedby={describedBy("introduction", true, errors.introduction)}
-          className="font-serif text-story" />
+          className="text-story" />
       </Field>
 
       <div>

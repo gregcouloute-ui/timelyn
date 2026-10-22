@@ -8,7 +8,7 @@ import { arrangeTimeline } from "@/lib/services/moments";
 
 export const metadata: Metadata = {
   title: "An example story",
-  description: "Peggy Ellison's life story, an example of Everline with a fictional family.",
+  description: "Peggy Ellison's life story, an example of TimeLyn with a fictional family.",
 };
 
 export default function ExamplePage() {
@@ -22,12 +22,12 @@ export default function ExamplePage() {
 
   return (
     <main id="main">
-      <div className="border-b border-night-soft/20 bg-night px-4 py-3 text-center text-small text-night-soft sm:px-8">
+      <div className="border-b-[3px] border-black bg-black px-4 py-3 text-center text-small font-bold text-white sm:px-8">
         This is an example. The Ellison family, their stories and their photographs are fictional.
       </div>
-      <StoryHero story={story} coverUrl={coverUrl} />
+      <StoryHero story={story} coverUrl={coverUrl} chapterCount={chapters.length} />
       <section className="mx-auto max-w-[90rem] px-4 py-14 sm:px-8 lg:py-20">
-        <p className="max-w-[34em] font-serif text-lede lg:ml-[16.5rem]" style={{ fontVariationSettings: '"opsz" 28' }}>
+        <p className="max-w-[36em] text-lede font-medium">
           {story.introduction}
         </p>
       </section>
@@ -37,10 +37,10 @@ export default function ExamplePage() {
         chapters={arranged}
         linkFor={() => null}
         ending={
-          <div className="max-w-xl">
-            <p className="text-small text-ink-soft">Today</p>
-            <p className="mt-1.5 font-serif text-h3">Peggy&rsquo;s story is still being written.</p>
-            <p className="mt-4 text-ui text-ink-soft">Someone in your family has a story like this.</p>
+          <div className="brutal max-w-xl bg-sun p-6">
+            <p className="tag bg-black text-white">Today</p>
+            <p className="mt-3 font-display text-h3 uppercase leading-tight">Peggy&rsquo;s story is still being written.</p>
+            <p className="mt-3 text-body font-medium">Someone in your family has a story like this.</p>
             <ButtonLink href="/sign-up" className="mt-6">
               Start a story
             </ButtonLink>

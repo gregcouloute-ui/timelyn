@@ -1,62 +1,59 @@
 import Image from "next/image";
-import { formatPartialDate, lifeSpan } from "@/lib/domain/dates";
+import { formatPartialDate } from "@/lib/domain/dates";
+import { shortName } from "@/lib/domain/names";
 import type { Story } from "@/lib/domain/types";
-import { familiarName } from "@/lib/domain/names";
 import { HeroLine, HeroPhoto } from "./hero-reveal";
 
-export function StoryHero({ story, coverUrl }: { story: Story; coverUrl: string | null }) {
-  const name = familiarName(story.subjectName, story.knownAs);
-  const born = `Born ${formatPartialDate(story.birthDate)}${story.birthPlace ? ` in ${story.birthPlace}` : ""}.`;
-  const died = story.deathDate
-    ? ` Died ${formatPartialDate(story.deathDate)}${story.deathPlace ? ` in ${story.deathPlace}` : ""}.`
-    : "";
+export function StoryHero({ story, coverUrl, chapterCount }: { story: Story; coverUrl: string | null; chapterCount?: number }) {
+  const first = shortName(story.subjectName, story.knownAs);
+  const surname = story.subjectName.trim().split(/\s+/).slice(-1)[0];
 
   return (
-    <section className="grain relative overflow-hidden bg-night text-night-ink" aria-labelledby="story-name">
-      {coverUrl ? (
-        <HeroPhoto>
-          <Image
-            src={coverUrl}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            unoptimized={!coverUrl.startsWith("/demo/")}
-            className="object-cover opacity-60"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-night via-night/50 to-night/10" />
-        </HeroPhoto>
-      ) : null}
-      <div className="relative z-[2] mx-auto flex min-h-[min(78vh,46rem)] max-w-[90rem] flex-col justify-end px-4 pb-14 pt-28 sm:px-8 lg:pb-20">
-        <div className="lg:pl-[16.5rem]">
-          {story.knownAs ? (
-            <HeroLine>
-              <p className="text-ui text-night-soft">{story.subjectName}</p>
-            </HeroLine>
-          ) : null}
-          <HeroLine delay={0.1}>
-            <h1
-              id="story-name"
-              className="mt-2 text-[clamp(3.25rem,9vw,8.5rem)] font-light leading-[0.92] tracking-[-0.025em]"
-              style={{ fontVariationSettings: '"opsz" 72' }}
-            >
-              {name}
+    <section className="border-b-[3px] border-black bg-pop" aria-labelledby="story-name">
+      <div className="mx-auto grid max-w-[90rem] items-center gap-10 px-4 py-12 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:gap-16 lg:py-20">
+        <div>
+          <HeroLine>
+            <p className="text-ui font-bold">
+              {story.knownAs ? `${story.subjectName}, known as` : "The story of"}
+            </p>
+          </HeroLine>
+          <HeroLine delay={0.08}>
+            <h1 id="story-name" className="mt-2 text-[clamp(3.5rem,11vw,9rem)] uppercase leading-[0.85] tracking-[-0.03em]">
+              {first}
+              {story.knownAs && surname !== first ? (
+                <span className="block text-[0.42em] leading-[1.1]">{surname}</span>
+              ) : null}
             </h1>
           </HeroLine>
-          <HeroLine delay={0.25} className="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2">
-            <p
-              className="font-serif text-[clamp(1.75rem,3vw,2.5rem)] font-light numerals-oldstyle"
-              style={{ fontVariationSettings: '"opsz" 48' }}
-              aria-label={story.deathDate ? `${story.birthDate.year} to ${story.deathDate.year}` : `Born ${story.birthDate.year}`}
-            >
-              {lifeSpan(story.birthDate, story.deathDate)}
-            </p>
-            <p className="max-w-xl text-ui text-night-soft">
-              {born}
-              {died}
-            </p>
+          <HeroLine delay={0.18} className="mt-6 flex flex-wrap gap-2">
+            <span className="tag bg-mint">
+              Born {formatPartialDate(story.birthDate)}
+            </span>
+            {story.birthPlace ? <span className="tag">{story.birthPlace}</span> : null}
+            {story.deathDate ? (
+              <span className="tag bg-black text-white">Died {formatPartialDate(story.deathDate)}</span>
+            ) : null}
+            {chapterCount ? <span className="tag">{chapterCount === 1 ? "1 chapter" : `${chapterCount} chapters`}</span> : null}
           </HeroLine>
         </div>
+        {coverUrl ? (
+          <HeroPhoto className="justify-self-center lg:justify-self-end">
+            <div className="relative w-[min(22rem,80vw)] border-[3px] border-black bg-paper p-3 shadow-brutal-lg">
+              <span aria-hidden="true" className="absolute -top-4 left-1/2 z-[1] h-7 w-24 -translate-x-1/2 -rotate-3 border-2 border-black bg-sun/90" />
+              <div className="relative aspect-[4/3] border-[3px] border-black">
+                <Image
+                  src={coverUrl}
+                  alt=""
+                  fill
+                  priority
+                  sizes="22rem"
+                  unoptimized={!coverUrl.startsWith("/demo/")}
+                  className="object-cover"
+                />
+              </div>
+            </div>
+          </HeroPhoto>
+        ) : null}
       </div>
     </section>
   );

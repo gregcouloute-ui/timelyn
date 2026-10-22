@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 /**
- * Everline is an authenticated, per-family application: almost every route
+ * TimeLyn is an authenticated, per-family application: almost every route
  * depends on who is signed in. We use the request-time rendering model
  * (Cache Components off) so that authorisation stays simple and explicit.
  */

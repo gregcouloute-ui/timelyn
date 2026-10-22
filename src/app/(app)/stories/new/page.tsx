@@ -11,7 +11,7 @@ export default async function NewStoryPage() {
   return (
     <main id="main" className="mx-auto w-full max-w-3xl px-4 pb-24 pt-10 sm:px-8 sm:pt-14">
       <Link href="/stories" className="link text-small">Your stories</Link>
-      <h1 className="mt-4 text-h1">Whose story is this?</h1>
+      <h1 className="mt-4 text-h1 uppercase">Whose story is this?</h1>
       <p className="mt-4 max-w-xl text-body text-ink-soft">
         You&rsquo;ll be the story keeper. You can change any of this later, and nothing is shared until you invite
         someone.

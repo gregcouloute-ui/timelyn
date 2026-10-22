@@ -54,77 +54,61 @@ export default async function StoryPage({ params, searchParams }: PageProps<"/s/
   }));
 
   const nowAge = story.deathDate ? null : ageAt(story.birthDate, todayAsPartialDate());
-  const ending = story.deathDate ? (
-    <div className="max-w-xl">
-      <p className="text-small text-ink-soft numerals-oldstyle">{formatPartialDate(story.deathDate)}</p>
-      <p className="mt-1.5 font-serif text-h3">
-        {first} died{story.deathPlace ? ` in ${story.deathPlace}` : ""}, and is remembered here by the people who loved them.
+  const ending = (
+    <div className={`brutal max-w-xl p-6 ${story.deathDate ? "bg-paper" : "bg-sun"}`}>
+      <p className="tag bg-black text-white">{story.deathDate ? formatPartialDate(story.deathDate) : "Today"}</p>
+      <p className="mt-3 font-display text-h3 uppercase leading-tight">
+        {story.deathDate
+          ? `${first} died${story.deathPlace ? ` in ${story.deathPlace}` : ""}, and is remembered here.`
+          : `${first}'s story is still being written${nowAge ? `, at ${nowAge.years}` : ""}.`}
       </p>
       {canAdd ? (
-        <p className="mt-4 text-ui text-ink-soft">
-          There&rsquo;s always more to remember. <Link href={`${base}/add`} className="link">Add a moment</Link>
-        </p>
-      ) : null}
-    </div>
-  ) : (
-    <div className="max-w-xl">
-      <p className="text-small text-ink-soft">Today</p>
-      <p className="mt-1.5 font-serif text-h3">
-        {first}&rsquo;s story is still being written{nowAge ? `, at ${nowAge.years}` : ""}.
-      </p>
-      {canAdd ? (
-        <p className="mt-4 text-ui text-ink-soft">
-          Something worth keeping happened recently? <Link href={`${base}/add`} className="link">Add a moment</Link>
-        </p>
+        <ButtonLink href={`${base}/add`} className="mt-5">
+          Add a moment
+        </ButtonLink>
       ) : null}
     </div>
   );
 
   return (
     <main id="main">
-      <StoryHero story={story} coverUrl={cover?.url ?? null} />
+      <StoryHero story={story} coverUrl={cover?.url ?? null} chapterCount={chapters.length} />
 
-      <section className="mx-auto max-w-[90rem] px-4 py-14 sm:px-8 lg:py-20">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16 lg:pl-[16.5rem]">
+      <section className="mx-auto max-w-[90rem] px-4 py-12 sm:px-8 lg:py-16">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12">
           <div>
             <Notice value={query.notice} className="mb-8" />
             {story.introduction ? (
-              <p className="max-w-[34em] font-serif text-lede text-ink" style={{ fontVariationSettings: '"opsz" 28' }}>
-                {story.introduction}
-              </p>
+              <p className="max-w-[36em] text-lede font-medium text-ink">{story.introduction}</p>
             ) : can.editStory(role) ? (
-              <p className="max-w-[34em] text-body text-ink-soft">
+              <p className="max-w-[36em] text-body text-ink-soft">
                 Add a few words to open {first}&rsquo;s story in{" "}
                 <Link href={`${base}/settings`} className="link">settings</Link>.
               </p>
             ) : null}
           </div>
-          <aside className="flex flex-col gap-4 text-ui text-ink-soft lg:border-l lg:border-rule lg:pl-8">
+          <aside className="brutal flex flex-col gap-4 p-5 text-ui">
             <p>
-              <span className="text-ink">{published.length === 1 ? "One moment" : `${published.length} moments`}</span> across{" "}
+              <span className="font-display text-h3">{published.length}</span>{" "}
+              <span className="font-bold">{published.length === 1 ? "moment" : "moments"}</span> across{" "}
               {years === 1 ? "one year" : `${years} years`}.
               {gathered ? ` ${gathered}` : ""}
             </p>
             {awaitingReview > 0 ? (
-              <p className="flex items-start gap-2.5 text-ink">
-                <span aria-hidden="true" className="mt-[0.45rem] size-1.5 shrink-0 rotate-45 bg-gold" />
-                <span>
-                  {awaitingReview === 1 ? "One contribution is" : `${awaitingReview} contributions are`} waiting for you.{" "}
-                  <Link href={`${base}/review`} className="link">Review</Link>
-                </span>
+              <p className="border-2 border-black bg-sun px-3 py-2 font-medium">
+                {awaitingReview === 1 ? "One contribution is" : `${awaitingReview} contributions are`} waiting for you.{" "}
+                <Link href={`${base}/review`} className="font-bold underline decoration-2 underline-offset-2">Review</Link>
               </p>
             ) : null}
             {mine.length > 0 && !can.review(role) ? (
-              <p>
+              <p className="border-2 border-black bg-mint px-3 py-2 font-medium">
                 You have {mine.length === 1 ? "one contribution" : `${mine.length} contributions`} with the story keeper.{" "}
-                <Link href={`${base}/mine`} className="link">See where they are</Link>
+                <Link href={`${base}/mine`} className="font-bold underline decoration-2 underline-offset-2">See where they are</Link>
               </p>
             ) : null}
             {canAdd ? (
               <div>
-                <ButtonLink href={`${base}/add`} variant="secondary" size="sm">
-                  Add a moment
-                </ButtonLink>
+                <ButtonLink href={`${base}/add`}>Add a moment</ButtonLink>
               </div>
             ) : null}
           </aside>
@@ -133,12 +117,10 @@ export default async function StoryPage({ params, searchParams }: PageProps<"/s/
 
       {published.length === 0 ? (
         <section className="mx-auto max-w-[90rem] px-4 pb-28 sm:px-8">
-          <div className="border-t border-rule pt-14 lg:pl-[16.5rem]">
-            <p className="font-serif text-year font-light text-ink-faint numerals-oldstyle" style={{ fontVariationSettings: '"opsz" 72' }}>
-              {story.birthDate.year}
-            </p>
-            <h2 className="mt-6 text-h2">{first}&rsquo;s story begins here</h2>
-            <p className="mt-3 max-w-xl text-body text-ink-soft">
+          <div className="brutal-lg bg-sun p-8 sm:p-10">
+            <p className="tag bg-black text-white">{story.birthDate.year}</p>
+            <h2 className="mt-4 text-h2 uppercase">{first}&rsquo;s story begins here</h2>
+            <p className="mt-3 max-w-xl text-body font-medium">
               {canAdd
                 ? "Start with something you know well: the day they were born, a photograph you love, or a story you've heard many times."
                 : "Nothing has been published yet. When the story keeper approves the first moments, they'll appear here."}

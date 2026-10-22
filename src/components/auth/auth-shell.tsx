@@ -6,30 +6,32 @@ import { Wordmark } from "@/components/brand/wordmark";
 export function AuthShell({ title, intro, children }: { title: string; intro?: ReactNode; children: ReactNode }) {
   return (
     <div className="grid flex-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
-      <aside className="grain relative hidden overflow-hidden bg-night lg:block">
-        <Image
-          src="/demo/sandsend-1959.jpg"
-          alt=""
-          fill
-          priority
-          sizes="45vw"
-          className="object-cover opacity-80"
-        />
-        <div className="absolute inset-x-0 bottom-0 z-[2] bg-gradient-to-t from-night/90 to-transparent p-10 pt-32 text-night-ink">
-          <p className="max-w-sm font-serif text-lede italic leading-snug" style={{ fontVariationSettings: '"opsz" 30' }}>
-            &ldquo;Every summer Dad shut the shop for one Saturday and we walked the beach to Sandsend and back.&rdquo;
-          </p>
-          <p className="mt-3 text-small text-night-soft">Peggy Ellison, aged 8, from the example story</p>
-        </div>
+      <aside className="hidden items-center justify-center border-r-[3px] border-black bg-pop p-12 lg:flex">
+        <figure className="relative w-full max-w-sm -rotate-2">
+          <span aria-hidden="true" className="absolute -top-4 left-1/2 z-[1] h-7 w-24 -translate-x-1/2 rotate-3 border-2 border-black bg-sun/90" />
+          <div className="brutal-lg bg-paper p-3">
+            <div className="relative aspect-[4/3] border-[3px] border-black">
+              <Image src="/demo/sandsend-1959.jpg" alt="Low tide at Sandsend" fill priority sizes="24rem" className="object-cover" />
+            </div>
+            <figcaption className="px-1 pb-1 pt-4">
+              <p className="text-body font-bold">
+                &ldquo;Every summer Dad shut the shop for one Saturday and we walked the beach to Sandsend and back.&rdquo;
+              </p>
+              <p className="tag mt-3 bg-sun">Peggy, aged 8, from the example story</p>
+            </figcaption>
+          </div>
+        </figure>
       </aside>
-      <main id="main" className="flex flex-col px-5 py-8 sm:px-10 lg:px-16">
-        <Link href="/" className="self-start rounded-sm text-ink" aria-label="Everline home">
+      <main id="main" className="dots flex flex-col px-5 py-8 sm:px-10 lg:px-16">
+        <Link href="/" className="self-start text-ink" aria-label="TimeLyn home">
           <Wordmark />
         </Link>
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-12">
-          <h1 className="text-h2">{title}</h1>
-          {intro ? <div className="mt-3 text-body text-ink-soft">{intro}</div> : null}
-          <div className="mt-8">{children}</div>
+          <div className="brutal-lg bg-paper p-6 sm:p-8">
+            <h1 className="text-h2 uppercase">{title}</h1>
+            {intro ? <div className="mt-3 text-body font-medium text-ink-soft">{intro}</div> : null}
+            <div className="mt-8">{children}</div>
+          </div>
         </div>
       </main>
     </div>

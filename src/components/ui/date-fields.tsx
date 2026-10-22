@@ -20,7 +20,7 @@ export function DateFields({ legend, hint, names, defaults = {}, errors = {}, re
   const error = errors[names.year] ?? errors[names.month] ?? errors[names.day];
   return (
     <fieldset className="flex flex-col gap-1.5" aria-describedby={describedBy(idPrefix, hint, error)}>
-      <legend className="mb-1.5 text-ui font-medium text-ink">{legend}</legend>
+      <legend className="mb-1.5 text-ui font-bold text-ink">{legend}</legend>
       {hint ? (
         <p id={`${idPrefix}-hint`} className="-mt-1 mb-1 text-small text-ink-soft">
           {hint}
@@ -86,7 +86,7 @@ export function DateFields({ legend, hint, names, defaults = {}, errors = {}, re
             type="checkbox"
             name={names.circa}
             defaultChecked={defaults.circa}
-            className="size-4 accent-[var(--cyan)]"
+            className="size-5 accent-black"
           />
           This date is approximate
         </label>

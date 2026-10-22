@@ -9,7 +9,7 @@ import { SupabaseRepository } from "@/lib/data/supabase/repository";
 import type { Viewer } from "@/lib/domain/types";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
-export const DEMO_COOKIE = "everline_demo_user";
+export const DEMO_COOKIE = "timelyn_demo_user";
 
 /** The data layer for this request, acting as the signed-in person. */
 export const getRepository = cache(async (): Promise<Repository> => {

@@ -2,7 +2,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 const inputBase =
-  "w-full rounded-soft border border-rule-strong bg-paper-raised text-ink placeholder:text-ink-faint transition-colors focus:border-cyan focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-cyan aria-[invalid=true]:border-danger disabled:opacity-60";
+  "w-full border-[3px] border-black bg-paper text-ink placeholder:text-ink-faint transition-shadow focus:shadow-[4px_4px_0_var(--pop)] focus:outline-none focus-visible:outline-none aria-[invalid=true]:shadow-[4px_4px_0_var(--coral)] disabled:opacity-60";
 
 export const inputClass = `${inputBase} px-3.5 py-2.5 text-body`;
 const compactClass = `${inputBase} px-3 py-1.5 text-small`;
@@ -21,7 +21,7 @@ interface FieldProps {
 export function Field({ id, label, hint, error, optional, children, className }: FieldProps) {
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
-      <label htmlFor={id} className="text-ui font-medium text-ink">
+      <label htmlFor={id} className="text-ui font-bold text-ink">
         {label}
         {optional ? <span className="ml-1.5 font-normal text-ink-faint">(optional)</span> : null}
       </label>
@@ -39,7 +39,7 @@ export function Field({ id, label, hint, error, optional, children, className }:
 export function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} className="text-small text-danger" role="alert">
+    <p id={id} className="text-small font-bold text-danger" role="alert">
       {message}
     </p>
   );
@@ -81,7 +81,7 @@ export function Checkbox({ label, hint, className, id, ...props }: ComponentProp
         type="checkbox"
         id={id}
         {...props}
-        className="mt-1 size-4 shrink-0 cursor-pointer accent-[var(--cyan)]"
+        className="mt-0.5 size-5 shrink-0 cursor-pointer accent-black"
         aria-describedby={hint ? `${id}-hint` : undefined}
       />
       <div>
@@ -104,8 +104,8 @@ export function FormMessage({ tone, children }: { tone: "error" | "success"; chi
     <div
       role={tone === "error" ? "alert" : "status"}
       className={cn(
-        "rounded-soft border-l-2 px-4 py-3 text-ui",
-        tone === "error" ? "border-danger bg-danger-wash text-ink" : "border-ok bg-ok-wash text-ink",
+        "border-[3px] border-black px-4 py-3 text-ui font-medium shadow-brutal-sm",
+        tone === "error" ? "bg-coral text-black" : "bg-mint text-black",
       )}
     >
       {children}

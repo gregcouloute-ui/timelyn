@@ -1,4 +1,4 @@
--- Minimal stand-ins for the parts of Supabase that Everline's migrations rely
+-- Minimal stand-ins for the parts of Supabase that TimeLyn's migrations rely
 -- on, so the schema and its Row Level Security can be tested in an embedded
 -- Postgres (PGlite) without Docker. Not used in production.
 

@@ -15,13 +15,13 @@ export function StoryBar({ slug, name, tabs }: { slug: string; name: string; tab
   const pathname = usePathname();
   const isActive = (t: Tab) => (t.exact ? pathname === t.href : pathname === t.href || pathname.startsWith(`${t.href}/`));
   return (
-    <section aria-label="Story" className="bg-night text-night-ink">
-      <div className="mx-auto flex max-w-[90rem] flex-col gap-2 px-4 pt-4 sm:flex-row sm:items-end sm:justify-between sm:px-8 sm:pt-0">
-        <Link href={`/s/${slug}`} className="truncate font-serif text-lede sm:py-4" style={{ fontVariationSettings: '"opsz" 30' }}>
+    <section aria-label="Story" className="border-b-[3px] border-black bg-black text-white">
+      <div className="mx-auto flex max-w-[90rem] flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <Link href={`/s/${slug}`} className="truncate font-display text-lede uppercase hover:text-pop">
           {name}
         </Link>
-        <nav aria-label="Story" className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
-          <ul className="flex gap-6 whitespace-nowrap">
+        <nav aria-label="Story" className="-mx-4 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0 sm:pb-0">
+          <ul className="flex gap-2 whitespace-nowrap">
             {tabs.map((t) => {
               const active = isActive(t);
               return (
@@ -30,13 +30,13 @@ export function StoryBar({ slug, name, tabs }: { slug: string; name: string; tab
                     href={t.href}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "inline-flex items-center gap-2 border-b-2 py-3.5 text-ui transition-colors sm:py-[1.15rem]",
-                      active ? "border-night-ink text-night-ink" : "border-transparent text-night-soft hover:text-night-ink",
+                      "inline-flex h-10 items-center gap-2 border-2 px-3 text-ui font-bold transition-colors",
+                      active ? "border-white bg-pop text-black" : "border-transparent text-white hover:border-white",
                     )}
                   >
                     {t.label}
                     {t.count ? (
-                      <span className="rounded-full bg-gold px-1.5 py-px text-caption font-semibold leading-tight text-night numerals-tabular">
+                      <span className="border-2 border-black bg-sun px-1.5 text-caption font-bold leading-tight text-black numerals-tabular">
                         {t.count}
                       </span>
                     ) : null}

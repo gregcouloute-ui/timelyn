@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Story settings" };
 
 function Section({ id, title, intro, children }: { id: string; title: string; intro?: string; children: React.ReactNode }) {
   return (
-    <section aria-labelledby={id} className="grid gap-6 border-t border-rule py-12 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-14">
+    <section aria-labelledby={id} className="grid gap-6 border-t-[3px] border-black py-12 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-14">
       <div>
         <h2 id={id} className="text-h3">{title}</h2>
         {intro ? <p className="mt-2 text-ui text-ink-soft">{intro}</p> : null}
@@ -30,7 +30,7 @@ export default async function SettingsPage({ params }: PageProps<"/s/[slug]/sett
 
   return (
     <main id="main" className="mx-auto w-full max-w-6xl px-4 pb-24 pt-10 sm:px-8 sm:pt-14">
-      <h1 className="text-h1">Settings</h1>
+      <h1 className="text-h1 uppercase">Settings</h1>
 
       <div className="mt-10">
         <Section id="details" title="About them" intro="The name, dates and introduction at the top of the story.">

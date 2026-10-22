@@ -6,7 +6,7 @@ export function DemoPersonas({ next }: { next: string }) {
   const personas = demoRepository.listUsers().filter((u) => u.persona);
   return (
     <div>
-      <ul className="divide-y divide-rule border-y border-rule">
+      <ul className="flex flex-col gap-3">
         {personas.map((u) => (
           <li key={u.id}>
             <form action={demoContinueAs}>
@@ -14,19 +14,19 @@ export function DemoPersonas({ next }: { next: string }) {
               <input type="hidden" name="next" value={next} />
               <button
                 type="submit"
-                className="group grid w-full grid-cols-[2.5rem_1fr] items-start gap-4 py-4 text-left transition-colors hover:bg-paper-sunk focus-visible:bg-paper-sunk"
+                className="press group grid w-full grid-cols-[2.5rem_1fr] items-start gap-4 bg-paper p-3 text-left hover:bg-pop focus-visible:bg-pop"
               >
                 <span
                   aria-hidden="true"
-                  className="mt-0.5 flex size-10 items-center justify-center rounded-full bg-cyan-wash font-serif text-lede text-cyan"
+                  className="mt-0.5 flex size-10 items-center justify-center border-2 border-black bg-sun font-display text-lede text-black"
                 >
                   {u.displayName[0]}
                 </span>
                 <span>
-                  <span className="block text-body font-medium text-ink group-hover:text-cyan">
+                  <span className="block text-body font-bold text-ink">
                     Continue as {u.displayName}
                   </span>
-                  <span className="block text-small text-ink-soft">
+                  <span className="block text-small font-medium text-ink-soft group-hover:text-black">
                     {u.persona!.relationship}. {u.persona!.summary}
                   </span>
                 </span>

@@ -40,7 +40,7 @@ export function MomentForm({ action, storyId, subjectFirstName, uploadConfig, mo
           defaultValue={val("title", moment?.title)}
           aria-invalid={Boolean(errors.title) || undefined}
           aria-describedby={describedBy("title", true, errors.title)}
-          className="font-serif text-lede"
+          className="text-lede font-bold"
         />
       </Field>
 
@@ -78,7 +78,7 @@ export function MomentForm({ action, storyId, subjectFirstName, uploadConfig, mo
           defaultValue={val("body", moment?.body)}
           aria-invalid={Boolean(errors.body) || undefined}
           aria-describedby={describedBy("body", true, errors.body)}
-          className="font-serif text-story leading-[1.65]"
+          className="text-story"
         />
       </Field>
 
@@ -98,7 +98,7 @@ export function MomentForm({ action, storyId, subjectFirstName, uploadConfig, mo
         />
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-4 border-t border-rule pt-6">
+      <div className="flex flex-wrap items-center gap-4 border-t-[3px] border-black pt-6">
         <Button type="submit" pending={pending} disabled={uploading}>
           {submitLabel}
         </Button>

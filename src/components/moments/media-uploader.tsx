@@ -192,12 +192,12 @@ export function MediaUploader({
           if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
         }}
         className={cn(
-          "flex flex-col items-start gap-4 rounded-soft border border-dashed px-5 py-6 transition-colors sm:flex-row sm:items-center sm:justify-between",
-          dragging ? "border-cyan bg-cyan-wash" : "border-rule-strong bg-paper-raised",
+          "flex flex-col items-start gap-4 border-[3px] border-dashed border-black px-5 py-6 transition-colors sm:flex-row sm:items-center sm:justify-between",
+          dragging ? "bg-pop" : "bg-paper-sunk",
         )}
       >
         <div>
-          <p className="text-ui font-medium text-ink">Photographs, video and sound</p>
+          <p className="text-ui font-bold text-ink">Photos, video and sound</p>
           <p className="mt-0.5 text-small text-ink-soft">
             Drop files here, or choose them. Photos up to 25 MB, recordings up to 50 MB, video up to 200 MB.
             {config.mode === "demo" ? " In demo mode, files up to 12 MB are kept in memory only." : ""}
@@ -238,9 +238,9 @@ export function MediaUploader({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, height: 0, marginTop: 0 }}
               transition={{ duration: 0.2 }}
-              className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 rounded-soft border border-rule bg-paper-raised p-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto]"
+              className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 border-[3px] border-black bg-paper p-3 shadow-brutal-sm sm:grid-cols-[7rem_minmax(0,1fr)_auto]"
             >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-frame bg-paper-sunk">
+              <div className="relative aspect-[4/3] overflow-hidden border-2 border-black bg-paper-sunk">
                 {item.previewUrl && item.kind === "image" ? (
                   // eslint-disable-next-line @next/next/no-img-element -- local blob preview
                   <img src={item.previewUrl} alt="" className="h-full w-full object-cover" />
@@ -271,7 +271,7 @@ export function MediaUploader({
                       maxLength={300}
                       onChange={(e) => update(item.key, { caption: e.target.value })}
                       placeholder="Who, where, when"
-                      className="mt-1 w-full border-b border-rule bg-transparent py-1.5 text-ui text-ink placeholder:text-ink-faint focus:border-cyan focus:outline-none"
+                      className="mt-1 w-full border-b-[3px] border-black bg-transparent py-1.5 text-ui text-ink placeholder:text-ink-faint focus:bg-sun/40 focus:outline-none"
                     />
                   </>
                 )}
@@ -279,15 +279,15 @@ export function MediaUploader({
               <div className="col-span-2 flex items-center gap-1 sm:col-span-1 sm:flex-col sm:items-end sm:justify-center">
                 {items.length > 1 && item.status === "ready" ? (
                   <>
-                    <button type="button" onClick={() => move(item.key, -1)} disabled={index === 0} className="rounded-sm px-2 py-1 text-small text-ink-soft hover:text-ink disabled:opacity-30">
+                    <button type="button" onClick={() => move(item.key, -1)} disabled={index === 0} className="px-2 py-1 text-small font-bold text-ink-soft hover:bg-sun hover:text-ink disabled:opacity-30">
                       Move up
                     </button>
-                    <button type="button" onClick={() => move(item.key, 1)} disabled={index === items.length - 1} className="rounded-sm px-2 py-1 text-small text-ink-soft hover:text-ink disabled:opacity-30">
+                    <button type="button" onClick={() => move(item.key, 1)} disabled={index === items.length - 1} className="px-2 py-1 text-small font-bold text-ink-soft hover:bg-sun hover:text-ink disabled:opacity-30">
                       Move down
                     </button>
                   </>
                 ) : null}
-                <button type="button" onClick={() => remove(item.key)} className="rounded-sm px-2 py-1 text-small text-danger hover:underline">
+                <button type="button" onClick={() => remove(item.key)} className="px-2 py-1 text-small font-bold text-danger hover:bg-coral hover:text-black">
                   Remove
                 </button>
               </div>
@@ -348,7 +348,7 @@ function VoiceRecorder({ onRecorded }: { onRecorded: (file: File) => void }) {
   if (state === "recording") {
     return (
       <Button type="button" size="sm" variant="danger" onClick={() => recorder.current?.stop()}>
-        <span aria-hidden="true" className="size-2 animate-pulse rounded-full bg-paper" />
+        <span aria-hidden="true" className="size-2 animate-pulse bg-black" />
         Stop recording {Math.floor(seconds / 60)}:{String(seconds % 60).padStart(2, "0")}
       </Button>
     );

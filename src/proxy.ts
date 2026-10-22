@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { appMode, supabaseConfig } from "@/lib/config";
 
-const DEMO_COOKIE = "everline_demo_user";
+const DEMO_COOKIE = "timelyn_demo_user";
 const PROTECTED = [/^\/stories(\/|$)/, /^\/s\//, /^\/account(\/|$)/];
 
 function toSignIn(request: NextRequest) {

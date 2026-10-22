@@ -1,8 +1,8 @@
 """
-Generates the demonstration photographs and sound used in Everline's local
+Generates the demonstration photographs and sound used in TimeLyn's local
 demo mode.
 
-Everline deliberately avoids stock photography. These images are procedurally
+TimeLyn deliberately avoids stock photography. These images are procedurally
 generated, soft-focus "plates" — landscapes, interiors and light — toned to
 suggest the decade they belong to (gelatin silver for the 1950s, faded
 colour for the 1970s and 80s, cleaner colour for recent years). They are

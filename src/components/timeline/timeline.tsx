@@ -15,6 +15,11 @@ interface YearGroup {
   moments: Moment[];
 }
 
+/** Chapter fills cycle so neighbouring chapters never share a colour. */
+const CHAPTER_FILLS = ["bg-pop", "bg-mint", "bg-coral", "bg-sun", "bg-pink", "bg-lime"] as const;
+
+const GRID = "grid grid-cols-[2.25rem_minmax(0,1fr)] lg:grid-cols-[14rem_2.5rem_minmax(0,1fr)]";
+
 function groupByYear(moments: Moment[]): YearGroup[] {
   const groups: YearGroup[] = [];
   for (const m of moments) {
@@ -41,82 +46,83 @@ function MomentEntry({ moment, story, href }: { moment: Moment; story: Story; hr
   const images = moment.media.filter((m) => m.kind === "image");
   const body = moment.body ? excerpt(moment.body, images.length ? 320 : 520) : null;
   const age = formatAge(ageAt(story.birthDate, moment.date));
-  const Title = moment.isMilestone ? "text-[clamp(1.75rem,2.4vw+1rem,2.4rem)] leading-[1.1]" : "text-h3";
 
   return (
     <article id={`moment-${moment.id}`} className="relative scroll-mt-28" aria-labelledby={`moment-title-${moment.id}`}>
       <div className={markerPosition}>
         <MomentMarker milestone={moment.isMilestone} filled={images.length > 0} />
       </div>
-      <p className="text-small text-ink-soft">
-        <time className="numerals-oldstyle">{formatPartialDate(moment.date)}</time>
-        {moment.place ? <span>, {moment.place}</span> : null}
-        {age ? <span className="text-ink-faint lg:hidden"> ({lowerFirst(age)})</span> : null}
-      </p>
-      <h3 id={`moment-title-${moment.id}`} className={cn("mt-1.5 max-w-[24em]", Title)}>
-        {moment.isMilestone ? <span className="sr-only">Milestone: </span> : null}
-        {href ? (
-          <Link href={href} className="decoration-rule-strong decoration-1 underline-offset-[0.2em] hover:underline">
-            {moment.title}
-          </Link>
-        ) : (
-          moment.title
-        )}
-      </h3>
-
-      {images.length ? (
-        <div className="mt-5 max-w-[52rem]">
-          <TimelinePhotos images={images} href={href ?? "#"} title={moment.title} />
-        </div>
-      ) : null}
-
-      <MomentRecordings media={moment.media} title={moment.title} className="mt-5 max-w-[52rem]" />
-
-      {body ? (
-        <div className="prose-story mt-4">
-          {paragraphs(body.text).map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
-          {body.truncated && href ? (
-            <p>
-              <Link href={href} className="link font-sans text-ui">
-                Continue reading
+      <div className={cn("brutal max-w-[46rem]", moment.isMilestone && "bg-sun")}>
+        {images.length ? <TimelinePhotos images={images} href={href ?? "#"} title={moment.title} /> : null}
+        <div className="p-5 sm:p-6">
+          <p className="flex flex-wrap items-center gap-2 text-small font-medium text-ink-soft">
+            <time className="tag numerals-tabular">{formatPartialDate(moment.date)}</time>
+            {moment.isMilestone ? <span className="tag bg-black text-white">Milestone</span> : null}
+            {moment.place ? <span>{moment.place}</span> : null}
+            {age ? <span className="lg:hidden">{age}</span> : null}
+          </p>
+          <h3
+            id={`moment-title-${moment.id}`}
+            className={cn(
+              "mt-3 max-w-[24em]",
+              moment.isMilestone ? "font-display text-[clamp(1.6rem,2vw+1rem,2.25rem)] font-normal uppercase leading-[0.95]" : "text-h3",
+            )}
+          >
+            {href ? (
+              <Link href={href} className="hover:bg-pop">
+                {moment.title}
               </Link>
-            </p>
-          ) : null}
-        </div>
-      ) : null}
+            ) : (
+              moment.title
+            )}
+          </h3>
 
-      <p className="mt-4 text-small text-ink-faint">{attribution(moment)}</p>
+          <MomentRecordings media={moment.media} title={moment.title} className="mt-4" />
+
+          {body ? (
+            <div className="prose-story mt-3">
+              {paragraphs(body.text).map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+              {body.truncated && href ? (
+                <p>
+                  <Link href={href} className="link text-ui">
+                    Keep reading
+                  </Link>
+                </p>
+              ) : null}
+            </div>
+          ) : null}
+
+          <p className="mt-4 text-small font-medium text-ink-soft">{attribution(moment)}</p>
+        </div>
+      </div>
     </article>
   );
 }
 
-function ChapterHeader({ item, story }: { item: TimelineChapter; story: Story }) {
+function ChapterHeader({ item, story, index }: { item: TimelineChapter; story: Story; index: number }) {
   const { chapter, endYear } = item;
   const end = endYear ?? story.deathDate?.year ?? null;
+  const fill = CHAPTER_FILLS[index % CHAPTER_FILLS.length];
   return (
-    <header className="grid grid-cols-[2.25rem_minmax(0,1fr)] lg:grid-cols-[14rem_2.5rem_minmax(0,1fr)]">
+    <header className={GRID}>
       <div className="hidden lg:block" />
       <div className="relative">
         <span
           aria-hidden="true"
-          className="absolute left-[0.75rem] top-[1.1rem] block size-4 -translate-x-1/2 rounded-full border-2 border-ink bg-paper ring-4 ring-paper lg:left-1/2"
+          className={cn("absolute left-[0.75rem] top-3 z-[1] block size-7 -translate-x-1/2 border-[3px] border-black lg:left-1/2", fill)}
         />
       </div>
-      <div className="pb-4">
-        <p className="text-small text-ink-soft numerals-oldstyle">
-          {chapter.startYear}
-          {end && end !== chapter.startYear ? ` – ${end}` : end ? "" : " onwards"}
+      <div className="pb-6">
+        <p className="tag bg-black text-white numerals-tabular">
+          Chapter {index + 1}: {chapter.startYear}
+          {end && end !== chapter.startYear ? ` to ${end}` : end ? "" : " onwards"}
         </p>
-        <h2 id={`chapter-title-${chapter.id}`} className="mt-1 text-h2">
-          {chapter.title}
+        <h2 id={`chapter-title-${chapter.id}`} className="mt-3 text-[clamp(2rem,3.5vw+1rem,3.5rem)] uppercase leading-[0.9]">
+          <span className={cn("box-decoration-clone px-1", fill)}>{chapter.title}</span>
         </h2>
-        {chapter.summary ? (
-          <p className="mt-3 max-w-[34em] font-serif text-lede italic text-ink-soft" style={{ fontVariationSettings: '"opsz" 24' }}>
-            {chapter.summary}
-          </p>
-        ) : null}
+        {chapter.summary ? <p className="mt-4 max-w-[36em] text-lede font-medium text-ink-soft">{chapter.summary}</p> : null}
       </div>
     </header>
   );
@@ -134,74 +140,65 @@ export function Timeline({
   ending?: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto max-w-[90rem] px-4 sm:px-8">
-      <Lifeline>
-        {chapters.map((item) => (
-          <section
-            key={item.chapter.id}
-            id={`chapter-${item.chapter.id}`}
-            aria-labelledby={`chapter-title-${item.chapter.id}`}
-            className="scroll-mt-14 pt-20 first:pt-14"
-          >
-            <ChapterHeader item={item} story={story} />
-            {item.moments.length === 0 ? (
-              <div className="grid grid-cols-[2.25rem_minmax(0,1fr)] lg:grid-cols-[14rem_2.5rem_minmax(0,1fr)]">
-                <div className="hidden lg:block" />
-                <div />
-                <p className="py-6 text-ui text-ink-faint">Nothing has been added to this chapter yet.</p>
-              </div>
-            ) : (
-              groupByYear(item.moments).map((group) => {
-                const age = ageForYear(story.birthDate, group.moments[0].date, story.deathDate);
-                return (
-                  <div
-                    key={group.year}
-                    className="grid grid-cols-[2.25rem_minmax(0,1fr)] border-t border-transparent lg:grid-cols-[14rem_2.5rem_minmax(0,1fr)]"
-                  >
-                    <div className="hidden lg:block">
-                      <div className="sticky top-16 pr-5 pt-7 text-right">
-                        <p
-                          className="font-serif text-year font-light text-ink numerals-oldstyle"
-                          style={{ fontVariationSettings: '"opsz" 72' }}
-                        >
+    <div className="dots">
+      <div className="mx-auto max-w-[90rem] px-4 sm:px-8">
+        <Lifeline>
+          {chapters.map((item, index) => (
+            <section
+              key={item.chapter.id}
+              id={`chapter-${item.chapter.id}`}
+              aria-labelledby={`chapter-title-${item.chapter.id}`}
+              className="scroll-mt-16 pt-20 first:pt-14"
+            >
+              <ChapterHeader item={item} story={story} index={index} />
+              {item.moments.length === 0 ? (
+                <div className={GRID}>
+                  <div className="hidden lg:block" />
+                  <div />
+                  <p className="py-6 text-ui font-medium text-ink-soft">Nothing has been added to this chapter yet.</p>
+                </div>
+              ) : (
+                groupByYear(item.moments).map((group) => {
+                  const age = ageForYear(story.birthDate, group.moments[0].date, story.deathDate);
+                  return (
+                    <div key={group.year} className={GRID}>
+                      <div className="hidden lg:block">
+                        <div className="sticky top-20 pr-6 pt-5 text-right">
+                          <p className="font-display text-year text-black numerals-tabular">{group.year}</p>
+                          {age ? <p className="tag mt-2 bg-paper">{age}</p> : null}
+                        </div>
+                      </div>
+                      <div />
+                      <div className="flex flex-col gap-10 py-6">
+                        <p aria-hidden="true" className="-mb-6 font-display text-[2.5rem] leading-none text-black lg:hidden">
                           {group.year}
                         </p>
-                        {age ? <p className="mt-2 text-small text-ink-soft">{age}</p> : null}
+                        {group.moments.map((m) => (
+                          <MomentEntry key={m.id} moment={m} story={story} href={linkFor(m)} />
+                        ))}
                       </div>
                     </div>
-                    <div />
-                    <div className="flex flex-col gap-14 py-8">
-                      <p
-                        aria-hidden="true"
-                        className="-mb-10 font-serif text-[2.75rem] font-light leading-none text-ink numerals-oldstyle lg:hidden"
-                      >
-                        {group.year}
-                      </p>
-                      {group.moments.map((m) => (
-                        <MomentEntry key={m.id} moment={m} story={story} href={linkFor(m)} />
-                      ))}
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </section>
-        ))}
-        {ending ? (
-          <div className="grid grid-cols-[2.25rem_minmax(0,1fr)] pb-28 pt-16 lg:grid-cols-[14rem_2.5rem_minmax(0,1fr)]">
-            <div className="hidden lg:block" />
-            <div className="relative">
-              <span
-                aria-hidden="true"
-                className="absolute left-[0.75rem] top-[0.45rem] block size-3 -translate-x-1/2 rounded-full bg-cyan ring-4 ring-paper lg:left-1/2"
-              />
+                  );
+                })
+              )}
+            </section>
+          ))}
+          {ending ? (
+            <div className={cn(GRID, "pb-28 pt-16")}>
+              <div className="hidden lg:block" />
+              <div className="relative">
+                <span
+                  aria-hidden="true"
+                  className="absolute left-[0.75rem] top-3 z-[1] block size-7 -translate-x-1/2 border-[3px] border-black bg-sun lg:left-1/2"
+                />
+              </div>
+              <div>{ending}</div>
             </div>
-            <div>{ending}</div>
-          </div>
-        ) : (
-          <div className="pb-28" />
-        )}
-      </Lifeline>
+          ) : (
+            <div className="pb-28" />
+          )}
+        </Lifeline>
+      </div>
     </div>
   );
 }
