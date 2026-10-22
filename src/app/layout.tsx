@@ -1,0 +1,46 @@
+import type { Metadata, Viewport } from "next";
+import { DemoBanner } from "@/components/layout/demo-banner";
+import { siteUrl } from "@/lib/config";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl()),
+  title: {
+    default: "Everline: every life is a story worth keeping",
+    template: "%s – Everline",
+  },
+  description:
+    "Everline gathers a family's photographs, memories and recordings into one life story, told in order from the day someone was born.",
+  applicationName: "Everline",
+  openGraph: {
+    title: "Everline",
+    description: "Every life is a story worth keeping.",
+    siteName: "Everline",
+    type: "website",
+  },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#eef0ec" },
+    { media: "(prefers-color-scheme: dark)", color: "#172129" },
+  ],
+};
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  return (
+    <html lang="en-GB">
+      <body className="flex min-h-dvh flex-col">
+        <a
+          href="#main"
+          className="sr-only z-50 bg-ink px-4 py-2 text-paper focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        >
+          Skip to content
+        </a>
+        <DemoBanner />
+        {children}
+      </body>
+    </html>
+  );
+}
