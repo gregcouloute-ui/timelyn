@@ -57,7 +57,7 @@ export function StoryForm({ action, story, submitLabel }: StoryFormProps) {
         </Field>
       </div>
 
-      <div className="flex flex-col gap-6 border-t-[3px] border-black pt-6">
+      <div className="flex flex-col gap-6 border-t-[length:var(--line)] border-black pt-6">
         <Checkbox
           id="remembered"
           name="remembered"

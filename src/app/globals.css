@@ -1,28 +1,36 @@
 @import "tailwindcss";
 @import "@fontsource/archivo-black/index.css";
 @import "@fontsource-variable/space-grotesk/index.css";
+@import "@fontsource-variable/bricolage-grotesque/index.css";
+@import "@fontsource-variable/dm-sans/index.css";
+@import "@fontsource-variable/caveat/index.css";
 
 /*
- * TimeLyn design tokens: neo-brutal
- * ---------------------------------
- * Black ink, 3px outlines, hard offset shadows and flat, saturated fills.
- * Every colour is a token in :root, so the whole look can be swapped for
- * another theme later (scrapbook and bold-colour themes were shortlisted)
- * by redefining this block alone.
+ * TimeLyn themes
+ * --------------
+ * Three looks share one set of components. Each theme is a block of tokens
+ * on <html data-theme="…">: colours, faces, line weights, corner radii and
+ * shadows. Components only ever use these tokens, so adding a theme means
+ * adding a block here and an entry in src/lib/themes.ts.
  *
- * Fills carry meaning: pop blue is the brand and the primary action, sun
- * yellow marks milestones, mint marks people and success, coral marks
- * stand-out moments. Text on every fill is black.
+ *   bold       Saturated lime ground, rounded white cards, chunky type.
+ *   brutal     Black 3px outlines, hard offset shadows, flat fills.
+ *   scrapbook  Cream dotted paper, taped polaroid cards, handwritten notes.
+ *
+ * Fills carry the same meaning in every theme: pop is the brand and the
+ * primary action, sun marks milestones, mint marks people and success,
+ * coral marks stand-out moments. Text on every fill is the ink colour.
  */
-:root {
+
+/* ---------------------------------------------------------------- brutal */
+:root,
+[data-theme="brutal"] {
   --paper: #ffffff;
   --paper-raised: #ffffff;
   --paper-sunk: #f2f2ee;
   --ink: #000000;
   --ink-soft: #262626;
   --ink-faint: #525252;
-  --rule: #000000;
-  --rule-strong: #000000;
 
   --pop: #93c5fd;
   --sun: #ffd23f;
@@ -30,27 +38,134 @@
   --coral: #ff7a59;
   --lime: #d8ff3d;
   --pink: #ff8ac6;
+  --link: #1d4ed8;
 
-  /* Older semantic names, mapped onto the brutal palette. */
-  --cyan: #1d4ed8; /* link text */
-  --cyan-strong: #1e3a8a;
-  --cyan-wash: var(--pop);
-  --night: #000000;
-  --night-ink: #ffffff;
-  --night-soft: #d4d4d4;
-  --gold: var(--sun);
-  --gold-wash: #fff1b8;
-  --danger: #b91c1c;
-  --danger-wash: #ffd6d6;
-  --ok: #14532d;
-  --ok-wash: #bbf7d0;
-  --focus: #000000;
+  --face-display: "Archivo Black", "Arial Black", Impact, sans-serif;
+  --face-text: "Space Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
+  --face-note: var(--face-text);
+  --display-weight: 400;
 
-  --line: 3px;
+  --line: 3px; /* structural rules: section edges, image frames */
+  --line-thin: 2px; /* list dividers, small outlines */
+  --card-line: 3px;
+  --button-line: 3px;
+  --tag-line: 2px;
+  --field-line: 3px;
+  --marker-line: 3px;
+
+  --radius: 0px;
+  --radius-pill: 0px;
+  --marker-radius: 0px;
+
   --hard-sm: 3px 3px 0 #000;
   --hard: 5px 5px 0 #000;
   --hard-lg: 8px 8px 0 #000;
+  --hard-hover: 5px 5px 0 #000;
+  --field-focus: 4px 4px 0 var(--pop);
+  --field-invalid: 4px 4px 0 var(--coral);
+
+  --tag-bg: var(--paper);
+  --dots: #cfcfcf;
+  --case: uppercase;
+
+  --color-black: #000000;
   color-scheme: light;
+}
+
+/* ------------------------------------------------------------------ bold */
+[data-theme="bold"] {
+  --paper: #e4ff7a;
+  --paper-raised: #ffffff;
+  --paper-sunk: #d3f25c;
+  --ink: #0b0b12;
+  --ink-soft: #24242e;
+  --ink-faint: #45454f;
+
+  --pop: #8c9bff;
+  --sun: #ffc233;
+  --mint: #4ee6c4;
+  --coral: #ff8a6b;
+  --lime: #c6ff3d;
+  --pink: #ff8ac6;
+  --link: #2b36d6;
+
+  --face-display: "Bricolage Grotesque Variable", "Arial Black", sans-serif;
+  --face-text: "Bricolage Grotesque Variable", "Helvetica Neue", Arial, sans-serif;
+  --face-note: var(--face-text);
+  --display-weight: 800;
+
+  --line: 0px;
+  --line-thin: 2px;
+  --card-line: 0px;
+  --button-line: 2.5px;
+  --tag-line: 2px;
+  --field-line: 2.5px;
+  --marker-line: 2.5px;
+
+  --radius: 28px;
+  --radius-pill: 999px;
+  --marker-radius: 999px;
+
+  --hard-sm: none;
+  --hard: none;
+  --hard-lg: none;
+  --hard-hover: none;
+  --field-focus: 0 0 0 4px var(--pop);
+  --field-invalid: 0 0 0 4px var(--coral);
+
+  --tag-bg: #ffffff;
+  --dots: transparent;
+  --case: none;
+
+  --color-black: #0b0b12;
+}
+
+/* ------------------------------------------------------------- scrapbook */
+[data-theme="scrapbook"] {
+  --paper: #f7f5f0;
+  --paper-raised: #ffffff;
+  --paper-sunk: #efebe1;
+  --ink: #1e1b16;
+  --ink-soft: #3d382f;
+  --ink-faint: #5c564b;
+
+  --pop: #c9defc;
+  --sun: #ffe873;
+  --mint: #c8efd6;
+  --coral: #ffc4ae;
+  --lime: #e9f5a8;
+  --pink: #ffd0e6;
+  --link: #a82a0e;
+
+  --face-display: "DM Sans Variable", "Helvetica Neue", Arial, sans-serif;
+  --face-text: "DM Sans Variable", "Helvetica Neue", Arial, sans-serif;
+  --face-note: "Caveat Variable", "Segoe Print", cursive;
+  --display-weight: 800;
+
+  --line: 0px;
+  --line-thin: 1.5px;
+  --card-line: 0px;
+  --button-line: 0px;
+  --tag-line: 0px;
+  --field-line: 2px;
+  --marker-line: 2px;
+
+  --radius: 3px;
+  --radius-pill: 999px;
+  --marker-radius: 999px;
+
+  --hard-sm: 0 3px 8px rgb(30 27 22 / 0.16);
+  --hard: 0 8px 20px rgb(30 27 22 / 0.16);
+  --hard-lg: 0 12px 28px rgb(30 27 22 / 0.2);
+  --hard-hover: 0 10px 22px rgb(30 27 22 / 0.2);
+  --field-focus: 0 0 0 4px var(--sun);
+  --field-invalid: 0 0 0 4px var(--coral);
+
+  --tag-bg: var(--sun);
+  --dots: #d9d4c9;
+  --case: none;
+
+  --color-black: #1e1b16;
 }
 
 @theme inline {
@@ -60,31 +175,31 @@
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
-  --color-rule: var(--rule);
-  --color-rule-strong: var(--rule-strong);
+  --color-rule: var(--ink);
+  --color-rule-strong: var(--ink);
   --color-pop: var(--pop);
   --color-sun: var(--sun);
   --color-mint: var(--mint);
   --color-coral: var(--coral);
   --color-lime: var(--lime);
   --color-pink: var(--pink);
-  --color-cyan: var(--cyan);
-  --color-cyan-strong: var(--cyan-strong);
-  --color-cyan-wash: var(--cyan-wash);
-  --color-night: var(--night);
-  --color-night-ink: var(--night-ink);
-  --color-night-soft: var(--night-soft);
-  --color-gold: var(--gold);
-  --color-gold-wash: var(--gold-wash);
-  --color-danger: var(--danger);
-  --color-danger-wash: var(--danger-wash);
-  --color-ok: var(--ok);
-  --color-ok-wash: var(--ok-wash);
+  --color-cyan: var(--link);
+  --color-cyan-strong: var(--link);
+  --color-cyan-wash: var(--pop);
+  --color-night: var(--ink);
+  --color-night-ink: #ffffff;
+  --color-night-soft: #d4d4d4;
+  --color-gold: var(--sun);
+  --color-gold-wash: #fff1b8;
+  --color-danger: #b91c1c;
+  --color-danger-wash: #ffd6d6;
+  --color-ok: #14532d;
+  --color-ok-wash: #bbf7d0;
 
-  --font-display: "Archivo Black", "Arial Black", Impact, sans-serif;
-  --font-sans: "Space Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
-  /* Retired serif slot: older markup falls back to the UI face. */
-  --font-serif: "Space Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--face-display);
+  --font-sans: var(--face-text);
+  --font-serif: var(--face-text);
+  --font-note: var(--face-note);
 
   --text-caption: 0.8125rem;
   --text-caption--line-height: 1.4;
@@ -107,8 +222,8 @@
   --text-year: clamp(2.25rem, 1.5vw + 1.5rem, 3.25rem);
   --text-year--line-height: 0.9;
 
-  --radius-soft: 0px;
-  --radius-frame: 0px;
+  --radius-soft: var(--radius);
+  --radius-frame: var(--radius);
 
   --shadow-brutal-sm: var(--hard-sm);
   --shadow-brutal: var(--hard);
@@ -125,7 +240,7 @@
   body {
     background: var(--paper);
     color: var(--ink);
-    font-family: var(--font-sans);
+    font-family: var(--face-text);
     font-size: var(--text-ui);
     line-height: 1.45;
     -webkit-font-smoothing: antialiased;
@@ -133,24 +248,24 @@
 
   ::selection {
     background: var(--sun);
-    color: #000;
+    color: var(--ink);
   }
 
   :focus-visible {
-    outline: 3px solid #000;
+    outline: 3px solid var(--ink);
     outline-offset: 3px;
   }
 
   h1,
   h2 {
-    font-family: var(--font-display);
-    font-weight: 400;
+    font-family: var(--face-display);
+    font-weight: var(--display-weight);
     letter-spacing: -0.02em;
     text-wrap: balance;
   }
 
   h3 {
-    font-family: var(--font-sans);
+    font-family: var(--face-text);
     font-weight: 700;
     letter-spacing: -0.01em;
     text-wrap: balance;
@@ -171,57 +286,98 @@
 }
 
 @layer components {
-  /* An outlined block with a hard shadow: the basic unit of the look. */
+  /* A card: the basic unit of every theme. */
+  .brutal,
+  .brutal-sm,
+  .brutal-lg {
+    border: var(--card-line) solid var(--ink);
+    border-radius: var(--radius);
+  }
   .brutal {
-    border: var(--line) solid #000;
     box-shadow: var(--hard);
     background: var(--paper-raised);
   }
   .brutal-sm {
-    border: var(--line) solid #000;
     box-shadow: var(--hard-sm);
   }
   .brutal-lg {
-    border: var(--line) solid #000;
     box-shadow: var(--hard-lg);
   }
 
-  /* Small outlined label. */
+  /* Small label. */
   .tag {
     display: inline-flex;
     align-items: center;
     gap: 0.4em;
-    border: 2px solid #000;
+    border: var(--tag-line) solid var(--ink);
+    border-radius: var(--radius-pill);
     padding: 0.2em 0.6em;
     font-weight: 700;
     font-size: var(--text-small);
     line-height: 1.3;
-    background: var(--paper);
-    color: #000;
+    background: var(--tag-bg);
+    color: var(--ink);
   }
 
-  /* Things you press sink into their shadow. Set --press-shadow and
-     --press-shadow-hover to recolour the shadow (white on black, say). */
+  /* Buttons and other things you press. */
   .press {
-    border: var(--line) solid #000;
+    border: var(--button-line) solid var(--ink);
+    border-radius: var(--radius-pill);
     box-shadow: var(--press-shadow, var(--hard-sm));
     transition:
       transform 90ms ease-out,
       box-shadow 90ms ease-out,
-      background-color 120ms;
+      background-color 120ms,
+      filter 120ms;
   }
   .press:hover {
     transform: translate(-1px, -1px);
-    box-shadow: var(--press-shadow-hover, 5px 5px 0 #000);
+    box-shadow: var(--press-shadow-hover, var(--hard-hover));
   }
   .press:active {
     transform: translate(3px, 3px);
     box-shadow: 0 0 0 transparent;
   }
 
+  /* Form fields. */
+  .field {
+    border: var(--field-line) solid var(--ink);
+    border-radius: min(var(--radius), 14px);
+    background: var(--paper-raised);
+  }
+  .field:focus {
+    box-shadow: var(--field-focus);
+  }
+  .field[aria-invalid="true"] {
+    box-shadow: var(--field-invalid);
+  }
+
+  /* Points on the lifeline. */
+  .marker {
+    border: var(--marker-line) solid var(--ink);
+    border-radius: var(--marker-radius);
+  }
+
+  /* A card on a dark section. */
+  .card-on-dark {
+    border: max(var(--card-line), 2px) solid #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--dark-card-shadow, 5px 5px 0 var(--pop));
+  }
+
+  /* Display headings take each theme's case: capitals for brutal. */
+  .display-case {
+    text-transform: var(--case);
+  }
+
+  /* Handwritten notes (scrapbook); the text face elsewhere. */
+  .note {
+    font-family: var(--face-note);
+  }
+
   /* Long-form reading text: stories and memories. */
   .prose-story {
-    font-family: var(--font-sans);
+    font-family: var(--face-text);
     font-size: var(--text-story);
     line-height: var(--text-story--line-height);
     max-width: 36em;
@@ -237,28 +393,74 @@
   }
 
   .link {
-    color: var(--cyan);
+    color: var(--link);
     font-weight: 600;
     text-decoration-line: underline;
     text-decoration-thickness: 2px;
     text-underline-offset: 0.18em;
   }
   .link:hover {
-    color: #000;
+    color: var(--ink);
     background: var(--sun);
   }
 
   /* Dotted grid paper, used behind open areas. */
   .dots {
     background-color: var(--paper);
-    background-image: radial-gradient(#cfcfcf 1.2px, transparent 1.2px);
+    background-image: radial-gradient(var(--dots) 1.2px, transparent 1.2px);
     background-size: 22px 22px;
   }
 
-  /* Retired: the old film grain. Kept as a no-op for older markup. */
   .grain {
     position: relative;
   }
+}
+
+/* ----------------------------------------------------- theme flourishes */
+
+/* Bold: rounded cards clip their photos; capitals give way to big type. */
+[data-theme="bold"] .brutal {
+  overflow: hidden;
+}
+[data-theme="bold"] .card-on-dark {
+  --dark-card-shadow: none;
+  background: #1c1c26;
+}
+[data-theme="bold"] .font-display {
+  font-weight: 800 !important;
+  letter-spacing: -0.03em;
+}
+
+/* Scrapbook: cards are taped in, labels are handwritten. */
+[data-theme="scrapbook"] .brutal {
+  position: relative;
+}
+[data-theme="scrapbook"] .brutal::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: -11px;
+  left: 50%;
+  width: 76px;
+  height: 22px;
+  background: rgb(255 232 115 / 0.85);
+  transform: translateX(-50%) rotate(-3deg);
+  pointer-events: none;
+}
+[data-theme="scrapbook"] .tag {
+  font-family: var(--face-note);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.1;
+  padding: 0.05em 0.5em;
+  transform: rotate(-1deg);
+}
+[data-theme="scrapbook"] .card-on-dark {
+  --dark-card-shadow: none;
+}
+[data-theme="scrapbook"] .font-display {
+  font-weight: 800 !important;
+  letter-spacing: -0.03em;
 }
 
 @media (prefers-reduced-motion: reduce) {

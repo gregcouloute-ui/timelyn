@@ -9,7 +9,7 @@ export default async function NewPasswordPage() {
   await requireViewer("/account/password");
   return (
     <main id="main" className="mx-auto w-full max-w-md px-4 pb-24 pt-14 sm:px-8">
-      <h1 className="text-h2 uppercase">Choose a new password</h1>
+      <h1 className="text-h2 display-case">Choose a new password</h1>
       <div className="mt-8">
         <UpdatePasswordForm />
       </div>

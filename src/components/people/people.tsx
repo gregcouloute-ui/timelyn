@@ -36,7 +36,7 @@ export function InviteForm({
   return (
     <div className="flex flex-col gap-6">
       {state.status === "invited" ? (
-        <div className="border-[3px] border-black bg-mint p-5 shadow-brutal" role="status">
+        <div className="brutal-sm bg-mint p-5" role="status">
           <p className="text-ui font-medium text-ink">Invitation ready for {state.email}</p>
           <p className="mt-1 text-small text-ink-soft">
             Send them this link however you usually keep in touch. It works once, only for {state.email}, and expires
@@ -49,7 +49,7 @@ export function InviteForm({
               value={state.link}
               aria-label="Invitation link"
               onFocus={(e) => e.currentTarget.select()}
-              className="min-w-0 flex-1 border-[3px] border-black bg-paper px-3 py-2 text-small text-ink"
+              className="field min-w-0 flex-1 px-3 py-2 text-small text-ink"
             />
             <Button
               type="button"
@@ -86,7 +86,7 @@ export function InviteForm({
           <legend className="text-ui font-medium text-ink">What can they do?</legend>
           <div className="mt-2 flex flex-col gap-2">
             {roles.map((r) => (
-              <label key={r} className="flex cursor-pointer items-start gap-3 border-[3px] border-black px-4 py-3 has-[:checked]:bg-pop has-[:checked]:shadow-brutal-sm">
+              <label key={r} className="field flex cursor-pointer items-start gap-3 px-4 py-3 has-[:checked]:bg-pop">
                 <input
                   type="radio"
                   name="role"

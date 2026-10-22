@@ -19,7 +19,7 @@ export function Lifeline({ children }: { children: ReactNode }) {
       <motion.div
         aria-hidden="true"
         style={{ scaleY: reduce ? scrollYProgress : smooth, transformOrigin: "top" }}
-        className="absolute bottom-0 top-0 left-[var(--line-x)] w-[11px] -translate-x-1/2 border-x-[3px] border-black bg-pop"
+        className="absolute bottom-0 top-0 left-[var(--line-x)] w-[11px] -translate-x-1/2 border-x-[length:var(--line)] border-black bg-pop"
       />
       {children}
     </div>

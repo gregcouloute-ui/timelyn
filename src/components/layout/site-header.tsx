@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { Wordmark } from "@/components/brand/wordmark";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { ButtonLink } from "@/components/ui/button";
 import { getViewer } from "@/lib/auth/session";
 
 export async function SiteHeader() {
   const viewer = await getViewer();
   return (
-    <header className="relative z-10 border-b-[3px] border-black bg-paper">
+    <header className="relative z-10 border-b-[length:var(--line)] border-black bg-paper">
       <div className="mx-auto flex h-[4.5rem] max-w-[90rem] items-center justify-between gap-6 px-4 sm:px-8">
         <Link href="/" aria-label="TimeLyn home">
           <Wordmark />
         </Link>
-        <nav aria-label="Main" className="flex items-center gap-4 sm:gap-6">
+        <nav aria-label="Main" className="flex items-center gap-3 sm:gap-5">
+          <ThemeSwitcher />
           <Link href="/example" className="hidden text-ui font-bold hover:bg-sun sm:inline">
             See an example
           </Link>

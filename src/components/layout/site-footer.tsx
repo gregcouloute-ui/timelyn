@@ -3,7 +3,7 @@ import { Wordmark } from "@/components/brand/wordmark";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t-[3px] border-black bg-paper">
+    <footer className="border-t-[length:var(--line)] border-black bg-paper">
       <div className="mx-auto grid max-w-[90rem] gap-8 px-4 py-12 sm:grid-cols-[1fr_auto] sm:px-8">
         <div>
           <Wordmark />

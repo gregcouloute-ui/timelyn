@@ -2,7 +2,7 @@ import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
 const inputBase =
-  "w-full border-[3px] border-black bg-paper text-ink placeholder:text-ink-faint transition-shadow focus:shadow-[4px_4px_0_var(--pop)] focus:outline-none focus-visible:outline-none aria-[invalid=true]:shadow-[4px_4px_0_var(--coral)] disabled:opacity-60";
+  "field w-full text-ink placeholder:text-ink-faint transition-shadow focus:outline-none focus-visible:outline-none disabled:opacity-60";
 
 export const inputClass = `${inputBase} px-3.5 py-2.5 text-body`;
 const compactClass = `${inputBase} px-3 py-1.5 text-small`;
@@ -81,7 +81,7 @@ export function Checkbox({ label, hint, className, id, ...props }: ComponentProp
         type="checkbox"
         id={id}
         {...props}
-        className="mt-0.5 size-5 shrink-0 cursor-pointer accent-black"
+        className="mt-0.5 size-5 shrink-0 cursor-pointer accent-[var(--ink)]"
         aria-describedby={hint ? `${id}-hint` : undefined}
       />
       <div>
@@ -104,7 +104,7 @@ export function FormMessage({ tone, children }: { tone: "error" | "success"; chi
     <div
       role={tone === "error" ? "alert" : "status"}
       className={cn(
-        "border-[3px] border-black px-4 py-3 text-ui font-medium shadow-brutal-sm",
+        "brutal-sm px-4 py-3 text-ui font-medium",
         tone === "error" ? "bg-coral text-black" : "bg-mint text-black",
       )}
     >

@@ -14,11 +14,11 @@ export function DemoPersonas({ next }: { next: string }) {
               <input type="hidden" name="next" value={next} />
               <button
                 type="submit"
-                className="press group grid w-full grid-cols-[2.5rem_1fr] items-start gap-4 bg-paper p-3 text-left hover:bg-pop focus-visible:bg-pop"
+                className="press group grid w-full grid-cols-[2.5rem_1fr] items-start gap-4 rounded-[var(--radius)]! bg-paper-raised p-3 text-left hover:bg-pop focus-visible:bg-pop"
               >
                 <span
                   aria-hidden="true"
-                  className="mt-0.5 flex size-10 items-center justify-center border-2 border-black bg-sun font-display text-lede text-black"
+                  className="mt-0.5 flex size-10 items-center justify-center border-[length:var(--line-thin)] border-black bg-sun font-display text-lede text-black"
                 >
                   {u.displayName[0]}
                 </span>

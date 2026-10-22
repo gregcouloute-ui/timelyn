@@ -24,9 +24,9 @@ function StoryRow({ story, index }: { story: StorySummary; index: number }) {
     <li>
       <Link
         href={`/s/${story.slug}`}
-        className="press group grid bg-paper sm:grid-cols-[minmax(0,17rem)_1fr]"
+        className="press group grid overflow-hidden rounded-[var(--radius)]! bg-paper-raised sm:grid-cols-[minmax(0,17rem)_1fr]"
       >
-        <div className="relative aspect-[3/2] border-b-[3px] border-black bg-black sm:aspect-auto sm:border-b-0 sm:border-r-[3px]">
+        <div className="relative aspect-[3/2] border-b-[length:var(--line)] border-black bg-black sm:aspect-auto sm:border-b-0 sm:border-r-[length:var(--line)]">
           {story.coverUrl ? (
             <Image
               src={story.coverUrl}
@@ -43,7 +43,7 @@ function StoryRow({ story, index }: { story: StorySummary; index: number }) {
           )}
         </div>
         <div className="flex flex-col justify-center gap-3 p-5 sm:p-6">
-          <h2 className="text-h2 uppercase leading-none">{name}</h2>
+          <h2 className="text-h2 display-case leading-none">{name}</h2>
           <p className="flex flex-wrap gap-2">
             <span className="tag bg-mint">{lifeSpan(story.birthDate, story.deathDate).replace("–", "to").replace(/to$/, "to today")}</span>
             <span className="tag">{ROLE_LABEL[story.role]}</span>
@@ -72,7 +72,7 @@ export default async function StoriesPage({ searchParams }: PageProps<"/stories"
       <Notice value={params.notice} className="mb-8" />
       <div className="flex flex-wrap items-end justify-between gap-6 pb-10">
         <div>
-          <h1 className="text-h1 uppercase">Your stories</h1>
+          <h1 className="text-h1 display-case">Your stories</h1>
           <p className="mt-3 max-w-xl text-body font-medium text-ink-soft">
             {stories.length
               ? "The lives you're helping to keep."
@@ -91,7 +91,7 @@ export default async function StoriesPage({ searchParams }: PageProps<"/stories"
       ) : (
         <section className="grid gap-8 sm:grid-cols-[1fr_1fr]">
           <div className="brutal bg-sun p-6">
-            <h2 className="text-h2 uppercase">Who would you like to remember?</h2>
+            <h2 className="text-h2 display-case">Who would you like to remember?</h2>
             <p className="mt-3 text-body text-ink-soft">
               A parent, a grandparent, a friend, or yourself. You&rsquo;ll be the story keeper: you invite family,
               and you decide what appears.

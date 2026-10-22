@@ -32,13 +32,13 @@ export function CoverPicker({ images, current, action }: { images: Media[]; curr
         <legend className="sr-only">Cover photograph</legend>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {images.map((m) => (
-            <label key={m.id} className={cn("relative block cursor-pointer overflow-hidden border-[3px] border-black outline-offset-4", selected === m.id && "outline outline-[3px] outline-black shadow-brutal")}>
+            <label key={m.id} className={cn("relative block cursor-pointer overflow-hidden border-[length:var(--line)] border-black outline-offset-4", selected === m.id && "outline outline-[3px] outline-black shadow-brutal")}>
               <input type="radio" name="coverChoice" value={m.id} checked={selected === m.id} onChange={() => setSelected(m.id)} className="sr-only" />
               <StoryImage media={m} sizes="12rem" className="aspect-[3/2] object-cover" alt={m.caption ?? "Photograph"} />
-              {selected === m.id ? <span className="absolute bottom-2 left-2 border-2 border-black bg-sun px-2 py-0.5 text-caption font-bold text-black">Cover</span> : null}
+              {selected === m.id ? <span className="absolute bottom-2 left-2 border-[length:var(--line-thin)] border-black bg-sun px-2 py-0.5 text-caption font-bold text-black">Cover</span> : null}
             </label>
           ))}
-          <label className={cn("flex aspect-[3/2] cursor-pointer items-center justify-center border-[3px] border-dashed border-black text-small font-bold text-ink-soft", selected === "none" && "outline outline-[3px] outline-offset-4 outline-black")}>
+          <label className={cn("flex aspect-[3/2] cursor-pointer items-center justify-center border-[length:max(var(--line),2px)] border-dashed border-black rounded-[var(--radius)] text-small font-bold text-ink-soft", selected === "none" && "outline outline-[3px] outline-offset-4 outline-black")}>
             <input type="radio" name="coverChoice" value="none" checked={selected === "none"} onChange={() => setSelected("none")} className="sr-only" />
             No cover
           </label>
@@ -127,13 +127,13 @@ export function ChaptersEditor({
   const errors = state.status === "error" ? state.fieldErrors : {};
   return (
     <div className="flex flex-col gap-8">
-      <ul className="divide-y-2 divide-black border-y-[3px] border-black">
+      <ul className="divide-y-[length:var(--line-thin)] divide-black border-y-[length:var(--line)] border-black">
         {chapters.map((c) => (
           <ChapterRow key={c.id} chapter={c} saveAction={saveAction[c.id]} deleteAction={deleteActions[c.id]} canDelete={chapters.length > 1} />
         ))}
       </ul>
       <form action={formAction} className="brutal flex flex-col gap-4 bg-paper-sunk p-5" key={state.status === "success" ? state.message : "add"}>
-        <p className="font-display text-body uppercase text-ink">Add a chapter</p>
+        <p className="font-display text-body display-case text-ink">Add a chapter</p>
         <Message state={state} />
         <div className="grid gap-4 sm:grid-cols-[7rem_minmax(0,1fr)]">
           <Field id="new-start" label="From" error={errors.startYear}>

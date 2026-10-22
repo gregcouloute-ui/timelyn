@@ -22,7 +22,7 @@ export default async function PeoplePage({ params }: PageProps<"/s/[slug]/people
 
   return (
     <main id="main" className="mx-auto w-full max-w-6xl px-4 pb-24 pt-10 sm:px-8 sm:pt-14">
-      <h1 className="text-h1 uppercase">People</h1>
+      <h1 className="text-h1 display-case">People</h1>
       <p className="mt-4 max-w-2xl text-body text-ink-soft">
         Everyone here can read {first}&rsquo;s story. Nobody else can, and nothing is ever public.
       </p>
@@ -32,13 +32,13 @@ export default async function PeoplePage({ params }: PageProps<"/s/[slug]/people
           <h2 id="members" className="text-h3">
             Taking part <span className="text-ink-faint numerals-oldstyle">{members.length}</span>
           </h2>
-          <ul className="mt-4 divide-y-2 divide-black border-y-[3px] border-black">
+          <ul className="mt-4 divide-y-[length:var(--line-thin)] divide-black border-y-[length:var(--line)] border-black">
             {members.map((m) => {
               const manageable = m.userId !== viewer.id && can.manageMember(role, m.role);
               return (
                 <li key={m.userId} className="flex flex-col gap-3 py-5 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex items-center gap-4">
-                    <span aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center border-2 border-black bg-pop font-display text-lede text-black">
+                    <span aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center border-[length:var(--line-thin)] border-black bg-pop font-display text-lede text-black">
                       {m.displayName[0]}
                     </span>
                     <div>
@@ -76,7 +76,7 @@ export default async function PeoplePage({ params }: PageProps<"/s/[slug]/people
           {can.inviteMembers(role) && (pendingInvites.length || pastInvites.length) ? (
             <div className="mt-14">
               <h2 className="text-h3">Invitations</h2>
-              <ul className="mt-4 divide-y-2 divide-black border-y-[3px] border-black">
+              <ul className="mt-4 divide-y-[length:var(--line-thin)] divide-black border-y-[length:var(--line)] border-black">
                 {[...pendingInvites, ...pastInvites].map((i) => {
                   const st = invitationState(i);
                   return (
@@ -105,7 +105,7 @@ export default async function PeoplePage({ params }: PageProps<"/s/[slug]/people
         </section>
 
         {can.inviteMembers(role) ? (
-          <section aria-labelledby="invite" className="lg:border-l-[3px] lg:border-black lg:pl-12">
+          <section aria-labelledby="invite" className="lg:border-l-[length:var(--line)] lg:border-black lg:pl-12">
             <h2 id="invite" className="text-h3">Invite someone</h2>
             <p className="mt-2 text-ui text-ink-soft">
               You&rsquo;ll get a private link to send them. They&rsquo;ll need to sign in with this email address to join.
@@ -115,7 +115,7 @@ export default async function PeoplePage({ params }: PageProps<"/s/[slug]/people
             </div>
           </section>
         ) : (
-          <aside className="text-ui text-ink-soft lg:border-l-[3px] lg:border-black lg:pl-12">
+          <aside className="text-ui text-ink-soft lg:border-l-[length:var(--line)] lg:border-black lg:pl-12">
             <p>Want someone else to see the story? Ask the story keeper to invite them.</p>
           </aside>
         )}

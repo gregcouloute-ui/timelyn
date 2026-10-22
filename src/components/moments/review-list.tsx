@@ -61,7 +61,7 @@ function ReviewCard({ moment, action, onReviewed }: { moment: Moment; action: Re
           <div className="mt-5 grid max-w-2xl grid-cols-2 gap-2.5 sm:grid-cols-3">
             {images.map((m) => (
               <figure key={m.id}>
-                <div className="overflow-hidden border-[3px] border-black">
+                <div className="overflow-hidden border-[length:var(--line)] border-black">
                   <StoryImage media={m} sizes="14rem" className="aspect-[4/3] object-cover" />
                 </div>
                 {m.caption ? <figcaption className="mt-1 text-caption text-ink-soft">{m.caption}</figcaption> : null}
@@ -82,7 +82,7 @@ function ReviewCard({ moment, action, onReviewed }: { moment: Moment; action: Re
         {moment.people.length ? <p className="mt-4 text-small text-ink-soft">With {listJoin(moment.people)}.</p> : null}
       </div>
 
-      <form action={formAction} className="flex flex-col gap-4 self-start border-[3px] border-black bg-paper-sunk p-4 lg:sticky lg:top-6">
+      <form action={formAction} className="brutal-sm flex flex-col gap-4 self-start bg-paper-sunk p-4 lg:sticky lg:top-6">
         <input type="hidden" name="momentId" value={moment.id} />
         <input type="hidden" name="decision" value={mode ?? "publish"} />
         <label className="inline-flex cursor-pointer items-center gap-2.5 text-ui font-bold text-ink">
@@ -104,7 +104,7 @@ function ReviewCard({ moment, action, onReviewed }: { moment: Moment; action: Re
                 rows={4}
                 maxLength={1000}
                 aria-invalid={Boolean(error) || undefined}
-                className="mt-1.5 w-full border-[3px] border-black bg-paper px-3 py-2 text-ui text-ink focus:shadow-[4px_4px_0_var(--pop)] focus:outline-none"
+                className="field mt-1.5 w-full px-3 py-2 text-ui text-ink focus:outline-none"
               />
             </motion.div>
           ) : null}

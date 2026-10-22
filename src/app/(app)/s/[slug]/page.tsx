@@ -57,7 +57,7 @@ export default async function StoryPage({ params, searchParams }: PageProps<"/s/
   const ending = (
     <div className={`brutal max-w-xl p-6 ${story.deathDate ? "bg-paper" : "bg-sun"}`}>
       <p className="tag bg-black text-white">{story.deathDate ? formatPartialDate(story.deathDate) : "Today"}</p>
-      <p className="mt-3 font-display text-h3 uppercase leading-tight">
+      <p className="mt-3 font-display text-h3 display-case leading-tight">
         {story.deathDate
           ? `${first} died${story.deathPlace ? ` in ${story.deathPlace}` : ""}, and is remembered here.`
           : `${first}'s story is still being written${nowAge ? `, at ${nowAge.years}` : ""}.`}
@@ -95,13 +95,13 @@ export default async function StoryPage({ params, searchParams }: PageProps<"/s/
               {gathered ? ` ${gathered}` : ""}
             </p>
             {awaitingReview > 0 ? (
-              <p className="border-2 border-black bg-sun px-3 py-2 font-medium">
+              <p className="rounded-[min(var(--radius),16px)] border-[length:var(--line-thin)] border-black bg-sun px-3 py-2 font-medium">
                 {awaitingReview === 1 ? "One contribution is" : `${awaitingReview} contributions are`} waiting for you.{" "}
                 <Link href={`${base}/review`} className="font-bold underline decoration-2 underline-offset-2">Review</Link>
               </p>
             ) : null}
             {mine.length > 0 && !can.review(role) ? (
-              <p className="border-2 border-black bg-mint px-3 py-2 font-medium">
+              <p className="rounded-[min(var(--radius),16px)] border-[length:var(--line-thin)] border-black bg-mint px-3 py-2 font-medium">
                 You have {mine.length === 1 ? "one contribution" : `${mine.length} contributions`} with the story keeper.{" "}
                 <Link href={`${base}/mine`} className="font-bold underline decoration-2 underline-offset-2">See where they are</Link>
               </p>
@@ -119,7 +119,7 @@ export default async function StoryPage({ params, searchParams }: PageProps<"/s/
         <section className="mx-auto max-w-[90rem] px-4 pb-28 sm:px-8">
           <div className="brutal-lg bg-sun p-8 sm:p-10">
             <p className="tag bg-black text-white">{story.birthDate.year}</p>
-            <h2 className="mt-4 text-h2 uppercase">{first}&rsquo;s story begins here</h2>
+            <h2 className="mt-4 text-h2 display-case">{first}&rsquo;s story begins here</h2>
             <p className="mt-3 max-w-xl text-body font-medium">
               {canAdd
                 ? "Start with something you know well: the day they were born, a photograph you love, or a story you've heard many times."

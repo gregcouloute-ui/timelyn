@@ -65,7 +65,7 @@ function MomentEntry({ moment, story, href }: { moment: Moment; story: Story; hr
             id={`moment-title-${moment.id}`}
             className={cn(
               "mt-3 max-w-[24em]",
-              moment.isMilestone ? "font-display text-[clamp(1.6rem,2vw+1rem,2.25rem)] font-normal uppercase leading-[0.95]" : "text-h3",
+              moment.isMilestone ? "font-display text-[clamp(1.6rem,2vw+1rem,2.25rem)] font-normal display-case leading-[0.95]" : "text-h3",
             )}
           >
             {href ? (
@@ -111,7 +111,7 @@ function ChapterHeader({ item, story, index }: { item: TimelineChapter; story: S
       <div className="relative">
         <span
           aria-hidden="true"
-          className={cn("absolute left-[0.75rem] top-3 z-[1] block size-7 -translate-x-1/2 border-[3px] border-black lg:left-1/2", fill)}
+          className={cn("marker absolute left-[0.75rem] top-3 z-[1] block size-7 -translate-x-1/2 lg:left-1/2", fill)}
         />
       </div>
       <div className="pb-6">
@@ -119,7 +119,7 @@ function ChapterHeader({ item, story, index }: { item: TimelineChapter; story: S
           Chapter {index + 1}: {chapter.startYear}
           {end && end !== chapter.startYear ? ` to ${end}` : end ? "" : " onwards"}
         </p>
-        <h2 id={`chapter-title-${chapter.id}`} className="mt-3 text-[clamp(2rem,3.5vw+1rem,3.5rem)] uppercase leading-[0.9]">
+        <h2 id={`chapter-title-${chapter.id}`} className="mt-3 text-[clamp(2rem,3.5vw+1rem,3.5rem)] display-case leading-[0.9]">
           <span className={cn("box-decoration-clone px-1", fill)}>{chapter.title}</span>
         </h2>
         {chapter.summary ? <p className="mt-4 max-w-[36em] text-lede font-medium text-ink-soft">{chapter.summary}</p> : null}
@@ -189,7 +189,7 @@ export function Timeline({
               <div className="relative">
                 <span
                   aria-hidden="true"
-                  className="absolute left-[0.75rem] top-3 z-[1] block size-7 -translate-x-1/2 border-[3px] border-black bg-sun lg:left-1/2"
+                  className="marker absolute left-[0.75rem] top-3 z-[1] block size-7 -translate-x-1/2 bg-sun lg:left-1/2"
                 />
               </div>
               <div>{ending}</div>

@@ -12,7 +12,7 @@ export function LineMark({ className }: { className?: string }) {
 
 export function Wordmark({ className }: { className?: string }) {
   return (
-    <span className={cn("inline-flex items-center gap-2 font-display text-[1.375rem] uppercase leading-none tracking-[-0.01em]", className)}>
+    <span className={cn("inline-flex items-center gap-2 font-display text-[1.375rem] display-case leading-none tracking-[-0.01em]", className)}>
       <LineMark />
       <span>TimeLyn</span>
     </span>

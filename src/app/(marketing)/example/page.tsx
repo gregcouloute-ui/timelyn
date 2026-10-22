@@ -22,7 +22,7 @@ export default function ExamplePage() {
 
   return (
     <main id="main">
-      <div className="border-b-[3px] border-black bg-black px-4 py-3 text-center text-small font-bold text-white sm:px-8">
+      <div className="border-b-[length:var(--line)] border-black bg-black px-4 py-3 text-center text-small font-bold text-white sm:px-8">
         This is an example. The Ellison family, their stories and their photographs are fictional.
       </div>
       <StoryHero story={story} coverUrl={coverUrl} chapterCount={chapters.length} />
@@ -39,7 +39,7 @@ export default function ExamplePage() {
         ending={
           <div className="brutal max-w-xl bg-sun p-6">
             <p className="tag bg-black text-white">Today</p>
-            <p className="mt-3 font-display text-h3 uppercase leading-tight">Peggy&rsquo;s story is still being written.</p>
+            <p className="mt-3 font-display text-h3 display-case leading-tight">Peggy&rsquo;s story is still being written.</p>
             <p className="mt-3 text-body font-medium">Someone in your family has a story like this.</p>
             <ButtonLink href="/sign-up" className="mt-6">
               Start a story

@@ -24,9 +24,9 @@ export default async function EditMomentPage({ params }: PageProps<"/s/[slug]/m/
   return (
     <main id="main" className="mx-auto w-full max-w-3xl px-4 pb-24 pt-10 sm:px-8 sm:pt-14">
       <Link href={`/s/${slug}/m/${id}`} className="link text-small">Back to the moment</Link>
-      <h1 className="mt-4 text-h1 uppercase">Edit moment</h1>
+      <h1 className="mt-4 text-h1 display-case">Edit moment</h1>
       {moment.reviewNote && moment.status === "changes_requested" ? (
-        <div className="mt-6 border-[3px] border-black bg-sun px-5 py-4 shadow-brutal-sm">
+        <div className="brutal-sm mt-6 bg-sun px-5 py-4">
           <p className="text-ui font-medium text-ink">The story keeper asked</p>
           <p className="mt-1 text-body font-medium">&ldquo;{moment.reviewNote}&rdquo;</p>
         </div>

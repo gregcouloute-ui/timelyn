@@ -34,7 +34,7 @@ function ExcerptCard({
           <span className="tag">{date}</span>
           {age ? <span>{age}</span> : null}
         </p>
-        <h3 className={milestone ? "mt-3 font-display text-[1.75rem] font-normal uppercase leading-[0.95]" : "mt-3 text-h3"}>{title}</h3>
+        <h3 className={milestone ? "mt-3 font-display text-[1.75rem] font-normal display-case leading-[0.95]" : "mt-3 text-h3"}>{title}</h3>
         <p className="mt-2 text-body">{body}</p>
         <p className="mt-3 text-small font-medium text-ink-soft">{credit}</p>
       </div>
@@ -60,11 +60,11 @@ export default function Home() {
   return (
     <main id="main">
       {/* Hero */}
-      <section className="border-b-[3px] border-black bg-pop">
+      <section className="border-b-[length:var(--line)] border-black bg-pop">
         <div className="mx-auto max-w-[90rem] px-4 pb-10 pt-14 sm:px-8 lg:pt-20">
           <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
             <div>
-              <h1 className="text-[clamp(3rem,8.5vw,8rem)] uppercase leading-[0.86] tracking-[-0.035em]">
+              <h1 className="text-[clamp(3rem,8.5vw,8rem)] display-case leading-[0.86] tracking-[-0.035em]">
                 Every life is a story worth keeping.
               </h1>
               <p className="mt-8 max-w-[34rem] text-lede font-medium">
@@ -82,13 +82,13 @@ export default function Home() {
             </div>
             <div className="relative mx-auto hidden w-full max-w-[22rem] lg:block">
               <div className="brutal-lg rotate-3 bg-paper p-3">
-                <span aria-hidden="true" className="absolute -top-4 left-1/2 z-[1] h-7 w-24 -translate-x-1/2 -rotate-6 border-2 border-black bg-sun/90" />
-                <div className="relative aspect-[4/5] border-[3px] border-black">
+                <span aria-hidden="true" className="absolute -top-4 left-1/2 z-[1] h-7 w-24 -translate-x-1/2 -rotate-6 border-[length:var(--line-thin)] border-black bg-sun/90" />
+                <div className="relative aspect-[4/5] overflow-hidden rounded-[calc(var(--radius)*0.6)] border-[length:var(--line)] border-black">
                   <Image src="/demo/whitby-return-2021.jpg" alt="Whitby at dusk" fill priority sizes="22rem" className="object-cover" />
                 </div>
-                <p className="mt-3 font-display text-small uppercase">Peggy, back in Whitby at 70</p>
+                <p className="mt-3 font-display text-small display-case">Peggy, back in Whitby at 70</p>
               </div>
-              <div className="absolute -bottom-6 -left-10 flex size-28 -rotate-12 items-center justify-center rounded-full border-[3px] border-black bg-pink text-center font-display text-small leading-tight">
+              <div className="absolute -bottom-6 -left-10 flex size-28 -rotate-12 items-center justify-center rounded-full border-[length:var(--button-line)] border-black bg-pink text-center font-display text-small leading-tight">
                 75 AND
                 <br />
                 COUNTING
@@ -102,10 +102,10 @@ export default function Home() {
       </section>
 
       {/* A life, in order */}
-      <section className="dots border-b-[3px] border-black">
+      <section className="dots border-b-[length:var(--line)] border-black">
         <div className="mx-auto grid max-w-[90rem] gap-14 px-4 py-20 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20 lg:py-28">
           <div className="lg:sticky lg:top-12 lg:self-start">
-            <h2 className="text-[clamp(2.5rem,4.5vw,4rem)] uppercase leading-[0.9]">
+            <h2 className="text-[clamp(2.5rem,4.5vw,4rem)] display-case leading-[0.9]">
               Not a photo album. <span className="bg-sun box-decoration-clone px-1">A life, in order.</span>
             </h2>
             <div className="mt-8 flex max-w-[30rem] flex-col gap-4 text-body font-medium">
@@ -131,7 +131,7 @@ export default function Home() {
               credit="In Peggy's own words"
               tilt="-rotate-1"
             >
-              <div className="relative aspect-[3/2] border-b-[3px] border-black">
+              <div className="relative aspect-[3/2] border-b-[length:var(--line)] border-black">
                 <Image src="/demo/sandsend-1959.jpg" alt="Low tide at Sandsend, 1959" fill sizes="(min-width: 1024px) 40rem, 90vw" className="object-cover" />
               </div>
             </ExcerptCard>
@@ -151,7 +151,7 @@ export default function Home() {
               body="Gran's knee was too bad for the walk, so I went on my own and recorded the sea for her."
               credit="Shared by Tom Ellison, grandson"
             >
-              <div className="border-b-[3px] border-black bg-pink p-4">
+              <div className="border-b-[length:var(--line)] border-black bg-pink p-4">
                 <AudioPlayer src="/demo/sandsend-waves.wav" title="The sound of Sandsend" duration={22} />
               </div>
             </ExcerptCard>
@@ -160,9 +160,9 @@ export default function Home() {
       </section>
 
       {/* How a story grows */}
-      <section className="border-b-[3px] border-black bg-paper">
+      <section className="border-b-[length:var(--line)] border-black bg-paper">
         <div className="mx-auto max-w-[90rem] px-4 py-20 sm:px-8 lg:py-24">
-          <h2 className="text-[clamp(2.25rem,4vw,3.5rem)] uppercase leading-[0.9]">How a story grows</h2>
+          <h2 className="text-[clamp(2.25rem,4vw,3.5rem)] display-case leading-[0.9]">How a story grows</h2>
           <ol className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {STEPS.map(([title, body, fill], i) => (
               <li key={title} className={cn("brutal p-6", fill)}>
@@ -176,9 +176,9 @@ export default function Home() {
       </section>
 
       {/* Living and remembered */}
-      <section className="dots border-b-[3px] border-black">
+      <section className="dots border-b-[length:var(--line)] border-black">
         <div className="mx-auto max-w-[90rem] px-4 py-20 sm:px-8 lg:py-24">
-          <h2 className="max-w-4xl text-[clamp(2.25rem,4vw,3.5rem)] uppercase leading-[0.9]">
+          <h2 className="max-w-4xl text-[clamp(2.25rem,4vw,3.5rem)] display-case leading-[0.9]">
             For the people still here, and the people we miss.
           </h2>
           <div className="mt-12 grid gap-10 md:grid-cols-2">
@@ -197,11 +197,11 @@ export default function Home() {
               },
             ].map((c) => (
               <figure key={c.name} className="brutal">
-                <div className="relative aspect-[3/2] border-b-[3px] border-black">
+                <div className="relative aspect-[3/2] border-b-[length:var(--line)] border-black">
                   <Image src={c.img} alt="" fill sizes="(min-width: 768px) 45vw, 100vw" className="object-cover" />
                 </div>
                 <figcaption className="p-6">
-                  <p className={cn("tag font-display font-normal uppercase", c.tag)}>{c.name}</p>
+                  <p className={cn("tag font-display font-normal display-case", c.tag)}>{c.name}</p>
                   <p className="mt-3 max-w-md text-body font-medium">{c.text}</p>
                 </figcaption>
               </figure>
@@ -211,9 +211,9 @@ export default function Home() {
       </section>
 
       {/* Private by design */}
-      <section className="border-b-[3px] border-black bg-black text-white">
+      <section className="border-b-[length:var(--line)] border-black bg-black text-white">
         <div className="mx-auto grid max-w-[90rem] gap-12 px-4 py-20 sm:px-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20 lg:py-24">
-          <h2 className="text-[clamp(2.25rem,4vw,3.5rem)] uppercase leading-[0.9]">Private by design, because families are.</h2>
+          <h2 className="text-[clamp(2.25rem,4vw,3.5rem)] display-case leading-[0.9]">Private by design, because families are.</h2>
           <div className="grid gap-5 sm:grid-cols-2">
             {[
               ["Only the people you invite", "No public profiles, no search listings. A story is visible to its members and nobody else."],
@@ -221,7 +221,7 @@ export default function Home() {
               ["Each family keeps its own", "Photos and recordings are stored privately and shown only through short-lived links to members."],
               ["Books and keepsakes, later", "Printed life-story books and photo albums are in the works. Everything you gather now will be ready for them."],
             ].map(([title, body]) => (
-              <div key={title} className="border-[3px] border-white p-5 shadow-[5px_5px_0_var(--pop)]">
+              <div key={title} className="card-on-dark p-5">
                 <h3 className="text-body font-bold">{title}</h3>
                 <p className="mt-2 text-ui text-night-soft">{body}</p>
               </div>
@@ -232,7 +232,7 @@ export default function Home() {
 
       <section className="bg-sun">
         <div className="mx-auto max-w-[90rem] px-4 py-20 sm:px-8 lg:py-24">
-          <h2 className="max-w-3xl text-[clamp(2.5rem,5vw,4.5rem)] uppercase leading-[0.88]">Whose story will you start?</h2>
+          <h2 className="max-w-3xl text-[clamp(2.5rem,5vw,4.5rem)] display-case leading-[0.88]">Whose story will you start?</h2>
           <p className="mt-5 text-lede font-medium">It takes a minute to begin, and a lifetime to finish.</p>
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <ButtonLink href="/sign-up" variant="loud" size="lg">

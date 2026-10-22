@@ -18,7 +18,7 @@ export function Notice({ value, className }: { value: unknown; className?: strin
   if (typeof value !== "string" || !(value in MESSAGES)) return null;
   return (
     <div role="status" className={className}>
-      <p className="border-[3px] border-black bg-mint px-4 py-3 text-ui font-medium text-black shadow-brutal-sm">{MESSAGES[value as NoticeKey]}</p>
+      <p className="brutal-sm bg-mint px-4 py-3 text-ui font-medium text-black">{MESSAGES[value as NoticeKey]}</p>
     </div>
   );
 }

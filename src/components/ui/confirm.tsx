@@ -40,8 +40,8 @@ export function Confirm({ trigger, triggerVariant = "quiet", title, description,
       </AlertDialog.Trigger>
       <AlertDialog.Portal>
         <AlertDialog.Overlay className="fixed inset-0 z-50 bg-black/40 data-[state=open]:animate-[fade_160ms_ease-out]" />
-        <AlertDialog.Content className="fixed left-1/2 top-1/2 z-50 w-[min(28rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 border-[3px] border-black bg-paper p-6 shadow-brutal-lg focus:outline-none">
-          <AlertDialog.Title className="font-display text-h3 uppercase">{title}</AlertDialog.Title>
+        <AlertDialog.Content className="fixed left-1/2 top-1/2 z-50 w-[min(28rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 brutal-lg bg-paper-raised p-6 focus:outline-none">
+          <AlertDialog.Title className="font-display text-h3 display-case">{title}</AlertDialog.Title>
           <AlertDialog.Description asChild>
             <div className="mt-3 text-body text-ink-soft">{description}</div>
           </AlertDialog.Description>

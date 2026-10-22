@@ -33,7 +33,7 @@ export function HeroLifeline() {
     <MotionConfig reducedMotion="user">
       <div className="relative h-36" aria-hidden="true">
         <motion.div
-          className="absolute inset-x-0 top-[2.43rem] h-[11px] origin-left border-y-[3px] border-black bg-paper"
+          className="absolute inset-x-0 top-[2.43rem] h-[11px] origin-left border-y-[length:var(--line)] border-black bg-paper"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
@@ -47,9 +47,9 @@ export function HeroLifeline() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 14, delay: 0.7 + i * 0.18 }}
           >
-            <p className="border-2 border-black bg-black px-1.5 font-display text-small text-white">{p.year}</p>
-            <span className={cn("mt-2 block border-[3px] border-black", p.fill, p.milestone ? "size-6 rotate-45" : "size-6")} />
-            <p className="mt-3 whitespace-nowrap border-2 border-black bg-paper px-2 py-0.5 text-small font-bold">{p.label}</p>
+            <p className="border-[length:var(--line-thin)] rounded-[var(--radius-pill)] border-black bg-black px-1.5 font-display text-small text-white">{p.year}</p>
+            <span className={cn("marker mt-2 block", p.fill, p.milestone ? "size-6 rotate-45" : "size-6")} />
+            <p className="mt-3 whitespace-nowrap border-[length:var(--line-thin)] rounded-[var(--radius-pill)] border-black bg-paper px-2 py-0.5 text-small font-bold">{p.label}</p>
           </motion.div>
         ))}
         <motion.div
@@ -58,8 +58,8 @@ export function HeroLifeline() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 14, delay: 1.9 }}
         >
-          <p className="border-2 border-black bg-sun px-1.5 font-display text-small">TODAY</p>
-          <span className="mt-2 block size-6 border-[3px] border-black bg-paper" />
+          <p className="border-[length:var(--line-thin)] rounded-[var(--radius-pill)] border-black bg-sun px-1.5 font-display text-small">TODAY</p>
+          <span className="marker mt-2 block size-6 bg-paper-raised" />
         </motion.div>
       </div>
     </MotionConfig>

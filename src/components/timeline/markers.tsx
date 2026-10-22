@@ -9,7 +9,7 @@ export function MomentMarker({ milestone, filled, className }: { milestone?: boo
     <span
       aria-hidden="true"
       className={cn(
-        "block border-[3px] border-black",
+        "marker block",
         milestone ? "size-[18px] rotate-45 bg-sun" : filled ? "size-4 bg-pop" : "size-4 bg-paper",
         className,
       )}

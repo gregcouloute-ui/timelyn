@@ -9,7 +9,7 @@ export function StoryHero({ story, coverUrl, chapterCount }: { story: Story; cov
   const surname = story.subjectName.trim().split(/\s+/).slice(-1)[0];
 
   return (
-    <section className="border-b-[3px] border-black bg-pop" aria-labelledby="story-name">
+    <section className="border-b-[length:var(--line)] border-black bg-pop" aria-labelledby="story-name">
       <div className="mx-auto grid max-w-[90rem] items-center gap-10 px-4 py-12 sm:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:gap-16 lg:py-20">
         <div>
           <HeroLine>
@@ -18,7 +18,7 @@ export function StoryHero({ story, coverUrl, chapterCount }: { story: Story; cov
             </p>
           </HeroLine>
           <HeroLine delay={0.08}>
-            <h1 id="story-name" className="mt-2 text-[clamp(3.5rem,11vw,9rem)] uppercase leading-[0.85] tracking-[-0.03em]">
+            <h1 id="story-name" className="mt-2 text-[clamp(3.5rem,11vw,9rem)] display-case leading-[0.85] tracking-[-0.03em]">
               {first}
               {story.knownAs && surname !== first ? (
                 <span className="block text-[0.42em] leading-[1.1]">{surname}</span>
@@ -38,9 +38,9 @@ export function StoryHero({ story, coverUrl, chapterCount }: { story: Story; cov
         </div>
         {coverUrl ? (
           <HeroPhoto className="justify-self-center lg:justify-self-end">
-            <div className="relative w-[min(22rem,80vw)] border-[3px] border-black bg-paper p-3 shadow-brutal-lg">
-              <span aria-hidden="true" className="absolute -top-4 left-1/2 z-[1] h-7 w-24 -translate-x-1/2 -rotate-3 border-2 border-black bg-sun/90" />
-              <div className="relative aspect-[4/3] border-[3px] border-black">
+            <div className="brutal-lg relative w-[min(22rem,80vw)] bg-paper-raised p-3">
+              <span aria-hidden="true" className="absolute -top-4 left-1/2 z-[1] h-7 w-24 -translate-x-1/2 -rotate-3 border-[length:var(--line-thin)] border-black bg-sun/90" />
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[calc(var(--radius)*0.6)] border-[length:var(--line)] border-black">
                 <Image
                   src={coverUrl}
                   alt=""

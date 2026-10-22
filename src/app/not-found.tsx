@@ -9,7 +9,7 @@ export default function NotFound() {
         <Wordmark />
       </Link>
       <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center py-16">
-        <h1 className="text-h1 uppercase">We can&rsquo;t find that page</h1>
+        <h1 className="text-h1 display-case">We can&rsquo;t find that page</h1>
         <p className="mt-4 text-body text-ink-soft">
           The link may be wrong, or the story isn&rsquo;t one you&rsquo;ve been invited to. Stories on TimeLyn are only
           visible to their members.

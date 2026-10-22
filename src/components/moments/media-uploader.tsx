@@ -192,7 +192,7 @@ export function MediaUploader({
           if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
         }}
         className={cn(
-          "flex flex-col items-start gap-4 border-[3px] border-dashed border-black px-5 py-6 transition-colors sm:flex-row sm:items-center sm:justify-between",
+          "flex flex-col items-start gap-4 border-[length:max(var(--line),2px)] border-dashed border-black rounded-[var(--radius)] px-5 py-6 transition-colors sm:flex-row sm:items-center sm:justify-between",
           dragging ? "bg-pop" : "bg-paper-sunk",
         )}
       >
@@ -238,9 +238,9 @@ export function MediaUploader({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, height: 0, marginTop: 0 }}
               transition={{ duration: 0.2 }}
-              className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 border-[3px] border-black bg-paper p-3 shadow-brutal-sm sm:grid-cols-[7rem_minmax(0,1fr)_auto]"
+              className="brutal-sm grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 bg-paper-raised p-3 sm:grid-cols-[7rem_minmax(0,1fr)_auto]"
             >
-              <div className="relative aspect-[4/3] overflow-hidden border-2 border-black bg-paper-sunk">
+              <div className="relative aspect-[4/3] overflow-hidden border-[length:var(--line-thin)] border-black bg-paper-sunk">
                 {item.previewUrl && item.kind === "image" ? (
                   // eslint-disable-next-line @next/next/no-img-element -- local blob preview
                   <img src={item.previewUrl} alt="" className="h-full w-full object-cover" />
@@ -271,7 +271,7 @@ export function MediaUploader({
                       maxLength={300}
                       onChange={(e) => update(item.key, { caption: e.target.value })}
                       placeholder="Who, where, when"
-                      className="mt-1 w-full border-b-[3px] border-black bg-transparent py-1.5 text-ui text-ink placeholder:text-ink-faint focus:bg-sun/40 focus:outline-none"
+                      className="mt-1 w-full border-b-[length:var(--line)] border-black bg-transparent py-1.5 text-ui text-ink placeholder:text-ink-faint focus:bg-sun/40 focus:outline-none"
                     />
                   </>
                 )}

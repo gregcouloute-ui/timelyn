@@ -47,7 +47,7 @@ export function AudioPlayer({ src, title, duration, className }: { src: string; 
   const progress = total ? Math.min(1, time / total) : 0;
 
   return (
-    <div className={cn("flex items-center gap-4 border-[3px] border-black bg-paper p-3", className)}>
+    <div className={cn("field flex items-center gap-4 p-3", className)}>
       <audio ref={audio} src={src} preload="metadata" />
       <button
         type="button"
@@ -63,8 +63,8 @@ export function AudioPlayer({ src, title, duration, className }: { src: string; 
       </button>
       <div className="flex min-w-0 flex-1 flex-col gap-1.5">
         <div className="relative h-6">
-          <div className="absolute inset-x-0 top-1/2 h-3 -translate-y-1/2 border-2 border-black bg-paper" />
-          <div className="absolute left-0 top-1/2 h-3 -translate-y-1/2 border-2 border-black bg-pop" style={{ width: `${progress * 100}%` }} />
+          <div className="absolute inset-x-0 top-1/2 h-3 -translate-y-1/2 border-[length:var(--line-thin)] border-black bg-paper" />
+          <div className="absolute left-0 top-1/2 h-3 -translate-y-1/2 border-[length:var(--line-thin)] border-black bg-pop" style={{ width: `${progress * 100}%` }} />
           <input
             type="range"
             min={0}
@@ -78,7 +78,7 @@ export function AudioPlayer({ src, title, duration, className }: { src: string; 
             }}
             aria-label={`Position in ${title}`}
             aria-valuetext={`${clock(time)} of ${clock(total)}`}
-            className="absolute inset-0 w-full cursor-pointer appearance-none bg-transparent [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:rounded-none [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-black [&::-moz-range-thumb]:bg-sun [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-black [&::-webkit-slider-thumb]:bg-sun"
+            className="absolute inset-0 w-full cursor-pointer appearance-none bg-transparent [&::-moz-range-thumb]:size-4 [&::-moz-range-thumb]:rounded-none [&::-moz-range-thumb]:border-[length:var(--line-thin)] [&::-moz-range-thumb]:border-black [&::-moz-range-thumb]:bg-sun [&::-webkit-slider-thumb]:size-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:border-[length:var(--line-thin)] [&::-webkit-slider-thumb]:border-black [&::-webkit-slider-thumb]:bg-sun"
           />
         </div>
         <div className="flex justify-between text-caption font-bold text-ink-soft numerals-tabular">

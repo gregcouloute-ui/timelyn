@@ -19,8 +19,8 @@ const variants: Record<Variant, string> = {
   /** Primary action on black surfaces. */
   onNight: `${boxed} bg-sun border-white [--press-shadow:3px_3px_0_#fff] [--press-shadow-hover:5px_5px_0_#fff]`,
   /** Hero calls to action: display face, upper case. */
-  loud: `${boxed} bg-pop font-display! font-normal! uppercase tracking-wide`,
-  loudSun: `${boxed} bg-sun font-display! font-normal! uppercase tracking-wide`,
+  loud: `${boxed} bg-pop font-display! font-normal! display-case tracking-wide`,
+  loudSun: `${boxed} bg-sun font-display! font-normal! display-case tracking-wide`,
 };
 
 const sizes: Record<Size, string> = {

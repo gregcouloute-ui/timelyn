@@ -98,7 +98,7 @@ export function MomentForm({ action, storyId, subjectFirstName, uploadConfig, mo
         />
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-4 border-t-[3px] border-black pt-6">
+      <div className="flex flex-wrap items-center gap-4 border-t-[length:var(--line)] border-black pt-6">
         <Button type="submit" pending={pending} disabled={uploading}>
           {submitLabel}
         </Button>

@@ -181,14 +181,19 @@ npm run test:db     # Only the RLS tests
 
 ## Design system
 
-TimeLyn uses a neo-brutal look: black ink, 3px outlines, hard offset shadows and flat, saturated fills. It is aimed at a younger audience without shutting out older family members.
+TimeLyn has three looks, and anyone can switch between them with the **Style** button in the header. The choice is remembered in a cookie, so pages render in it straight away.
 
-- **Tokens** live in `src/app/globals.css` under `:root`. Fills carry meaning: pop blue `#93c5fd` is the brand and primary action, sun yellow `#ffd23f` marks milestones, mint `#5eead4` marks people and success, coral `#ff7a59` marks stand-out moments. Text on every fill is black.
-- **Type:** Archivo Black for names, headings and loud buttons (often upper case); Space Grotesk for everything else.
-- **Building blocks:** `.brutal` (outlined card with a hard shadow), `.tag` (small outlined label), `.press` (buttons that sink into their shadow when pressed), `.dots` (dotted grid paper).
-- **The lifeline** is the signature element: a black rule that fills into a thick blue bar as you read, with square markers (yellow diamonds for milestones) and big year numbers in a sticky gutter.
-- **Themes later:** scrapbook and bold-colour directions were shortlisted. Because colour, borders and shadows are all tokens, a second theme is a new token block rather than a rewrite.
-- Accessibility: semantic landmarks, labelled controls, visible focus, reduced-motion support, and every page checked with axe (WCAG 2 A/AA plus best practice).
+| Theme | Feel |
+| --- | --- |
+| **Bold** (default) | Lime ground, rounded white cards, big Bricolage Grotesque type, no outlines |
+| **Neo-brutal** | Black 3px outlines, hard offset shadows, flat fills, Archivo Black capitals |
+| **Scrapbook** | Cream dotted paper, taped-in cards with soft shadows, DM Sans with handwritten Caveat labels |
+
+- **How it works:** each theme is a block of tokens on `<html data-theme="…">` in `src/app/globals.css`: colours, typefaces, line weights, corner radii and shadows. Components only use those tokens and a few shared classes (`.brutal` for cards, `.press` for buttons, `.tag`, `.field`, `.marker`, `.display-case`). The list of themes is in `src/lib/themes.ts`.
+- **Adding a theme:** add a token block in `globals.css` and an entry in `src/lib/themes.ts`. No component changes are needed.
+- **Colour meanings are the same in every theme:** pop is the brand and the primary action, sun marks milestones, mint marks people and success, coral marks stand-out moments.
+- **The lifeline** is the signature element in all three: a rule that fills as you read, with markers on it and big year numbers in a sticky gutter.
+- **Accessibility:** every page is checked with axe (WCAG 2 A/AA plus best practice) in all three themes.
 
 ## Known limitations and next steps
 

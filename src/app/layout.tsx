@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
+import { cookies } from "next/headers";
 import { DemoBanner } from "@/components/layout/demo-banner";
 import { siteUrl } from "@/lib/config";
+import { THEME_COOKIE, toThemeId } from "@/lib/themes";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,15 +24,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#eef0ec" },
-    { media: "(prefers-color-scheme: dark)", color: "#172129" },
-  ],
+  themeColor: "#000000",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const theme = toThemeId((await cookies()).get(THEME_COOKIE)?.value);
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" data-theme={theme}>
       <body className="flex min-h-dvh flex-col">
         <a
           href="#main"

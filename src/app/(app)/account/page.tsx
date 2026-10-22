@@ -9,16 +9,16 @@ export default async function AccountPage() {
   const viewer = await requireViewer("/account");
   return (
     <main id="main" className="mx-auto w-full max-w-3xl px-4 pb-24 pt-10 sm:px-8 sm:pt-14">
-      <h1 className="text-h1 uppercase">Account</h1>
+      <h1 className="text-h1 display-case">Account</h1>
       <p className="mt-3 text-body text-ink-soft">Signed in as {viewer.email ?? viewer.displayName}.</p>
-      <section aria-labelledby="name" className="mt-12 border-t-[3px] border-black pt-8">
+      <section aria-labelledby="name" className="mt-12 border-t-[length:var(--line)] border-black pt-8">
         <h2 id="name" className="text-h3">Name</h2>
         <div className="mt-6 max-w-md">
           <DisplayNameForm current={viewer.displayName} />
         </div>
       </section>
       {!isDemo() ? (
-        <section id="password" aria-labelledby="password-title" className="mt-12 border-t-[3px] border-black pt-8">
+        <section id="password" aria-labelledby="password-title" className="mt-12 border-t-[length:var(--line)] border-black pt-8">
           <h2 id="password-title" className="text-h3">Password</h2>
           <div className="mt-6 max-w-md">
             <UpdatePasswordForm />

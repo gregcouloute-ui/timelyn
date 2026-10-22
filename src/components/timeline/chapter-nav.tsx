@@ -57,7 +57,7 @@ export function ChapterNav({ chapters }: { chapters: NavChapter[] }) {
   if (chapters.length < 2) return null;
 
   return (
-    <nav aria-label="Chapters" className="sticky top-0 z-20 border-y-[3px] border-black bg-paper">
+    <nav aria-label="Chapters" className="sticky top-0 z-20 border-y-[length:var(--line)] border-black bg-paper">
       <ul ref={listRef} className="mx-auto flex max-w-[90rem] gap-2 overflow-x-auto px-2 py-2 sm:px-6 [scrollbar-width:none]">
         {chapters.map((c) => {
           const isActive = active === c.id;
@@ -67,7 +67,7 @@ export function ChapterNav({ chapters }: { chapters: NavChapter[] }) {
                 href={`#chapter-${c.id}`}
                 aria-current={isActive ? "location" : undefined}
                 className={cn(
-                  "flex h-10 items-baseline gap-2 border-2 px-3 pt-[0.55rem] text-small transition-colors",
+                  "flex h-10 items-baseline gap-2 border-[length:var(--line-thin)] rounded-[var(--radius-pill)] px-3 pt-[0.55rem] text-small transition-colors",
                   isActive ? "border-black bg-pop text-black" : "border-transparent text-ink-soft hover:border-black hover:text-black",
                 )}
               >

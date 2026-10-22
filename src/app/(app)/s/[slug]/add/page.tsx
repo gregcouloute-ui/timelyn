@@ -17,7 +17,7 @@ export default async function AddMomentPage({ params }: PageProps<"/s/[slug]/add
 
   return (
     <main id="main" className="mx-auto w-full max-w-3xl px-4 pb-24 pt-10 sm:px-8 sm:pt-14">
-      <h1 className="text-h1 uppercase">Add a moment</h1>
+      <h1 className="text-h1 display-case">Add a moment</h1>
       <p className="mt-4 max-w-xl text-body text-ink-soft">
         {editor
           ? `It will appear in ${first}'s story straight away, in its place on the timeline.`

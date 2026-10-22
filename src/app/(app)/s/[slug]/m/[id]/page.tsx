@@ -42,8 +42,8 @@ function StatusPanel({ moment, slug, canEdit }: { moment: Moment; slug: string; 
     declined: { title: "Not included in the story", body: "The story keeper decided not to include this. Only you and they can see it." },
   }[moment.status];
   return (
-    <div className="mb-10 border-[3px] border-black bg-sun px-5 py-4 shadow-brutal-sm">
-      <p className="font-display text-body uppercase text-ink">{copy.title}</p>
+    <div className="brutal-sm mb-10 bg-sun px-5 py-4">
+      <p className="font-display text-body display-case text-ink">{copy.title}</p>
       {moment.reviewNote ? (
         <p className="mt-1.5 text-body font-medium text-ink">&ldquo;{moment.reviewNote}&rdquo;</p>
       ) : null}
@@ -89,7 +89,7 @@ export default async function MomentPage({ params, searchParams }: PageProps<"/s
               {age ? <span>. {age}.</span> : null}
             </span>
           </p>
-          <h1 id="moment-title" className="mt-3 text-h1 uppercase">
+          <h1 id="moment-title" className="mt-3 text-h1 display-case">
             {moment.title}
           </h1>
           {moment.place || moment.people.length ? (
@@ -124,7 +124,7 @@ export default async function MomentPage({ params, searchParams }: PageProps<"/s
           </div>
         ) : null}
 
-        <footer className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t-[3px] border-black pt-6">
+        <footer className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t-[length:var(--line)] border-black pt-6">
           <p className="text-ui text-ink-soft">{attribution(moment)}.</p>
           {canEdit || canDelete ? (
             <div className="flex items-center gap-5">
@@ -156,7 +156,7 @@ export default async function MomentPage({ params, searchParams }: PageProps<"/s
         <nav aria-label="More moments" className="mx-auto mt-16 grid max-w-[64rem] gap-6 px-4 sm:grid-cols-2 sm:px-8">
           {[previous, next].map((m, i) =>
             m ? (
-              <Link key={m.id} href={`${base}/m/${m.id}`} className={`press group block bg-paper p-5 hover:bg-pop ${i === 1 ? "sm:text-right" : ""}`}>
+              <Link key={m.id} href={`${base}/m/${m.id}`} className={`press group block rounded-[var(--radius)]! bg-paper-raised p-5 hover:bg-pop ${i === 1 ? "sm:text-right" : ""}`}>
                 <span className="tag">{i === 0 ? "Earlier" : "Later"}, {formatPartialDate(m.date)}</span>
                 <span className="mt-1 block text-h3 font-bold group-hover:bg-pop">{m.title}</span>
               </Link>

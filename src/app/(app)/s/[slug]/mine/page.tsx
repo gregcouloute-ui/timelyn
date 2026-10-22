@@ -51,11 +51,11 @@ export default async function MinePage({ params, searchParams }: PageProps<"/s/[
     <main id="main" className="mx-auto w-full max-w-4xl px-4 pb-24 pt-10 sm:px-8 sm:pt-14">
       <Notice value={query.notice} className="mb-8" />
       <div className="flex flex-wrap items-end justify-between gap-6">
-        <h1 className="text-h1 uppercase">Your contributions</h1>
+        <h1 className="text-h1 display-case">Your contributions</h1>
         {atLeast(role, "contributor") ? <ButtonLink href={`/s/${slug}/add`}>Add a moment</ButtonLink> : null}
       </div>
       {mine.length === 0 ? (
-        <p className="mt-10 border-t-[3px] border-black pt-8 text-body text-ink-soft">
+        <p className="mt-10 border-t-[length:var(--line)] border-black pt-8 text-body text-ink-soft">
           You haven&rsquo;t added anything yet. Photographs, a story you&rsquo;ve been told, a recording of a voice: it
           all helps.
         </p>
@@ -68,7 +68,7 @@ export default async function MinePage({ params, searchParams }: PageProps<"/s/[
               <h2 id={`group-${g.status}`} className={cn("tag font-sans text-ui", g.tone)}>
                 {g.title} <span className="font-normal">{items.length}</span>
               </h2>
-              <ul className="mt-2 divide-y-2 divide-black border-b-[3px] border-black">
+              <ul className="mt-2 divide-y-[length:var(--line-thin)] divide-black border-b-[length:var(--line)] border-black">
                 {items.map((m) => (
                   <Row key={m.id} m={m} slug={slug} />
                 ))}
